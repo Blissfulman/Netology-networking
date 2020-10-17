@@ -17,11 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         
-        let rootVC = ViewController(nibName: nil, bundle: nil)
-        let navigationController = UINavigationController(rootViewController: rootVC)
+        let rootViewController = LoginViewController(nibName: nil, bundle: nil)
+        let navigationController = UINavigationController(rootViewController: rootViewController)
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        navigationController.viewControllers = [rootVC]
+        navigationController.viewControllers = [rootViewController]
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         

@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-class ViewController: UIViewController {
+class LoginViewController: UIViewController {
 
     // MARK: - Properties
     /// Изображение логотипа
@@ -37,7 +37,6 @@ class ViewController: UIViewController {
         textField.borderStyle = .roundedRect
         textField.isSecureTextEntry = true
         textField.delegate = self
-
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -46,7 +45,7 @@ class ViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Login", for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 24)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -58,18 +57,27 @@ class ViewController: UIViewController {
         setupUI()
         setupLayout()
         
-        loginButton.addTarget(self, action: #selector(tappedLoginButton), for: .touchUpInside)
+        loginButton.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
     }
-
+    
+    // MARK: - Actions
+    @objc private func loginButtonPressed() {
+        
+        view.endEditing(true)
+        
+        let helloViewController = HelloViewController()
+        navigationController?.pushViewController(helloViewController, animated: true)
+    }
+    
     // MARK: - Setup UI
-    private func  setupUI() {
+    private func setupUI() {
         view.backgroundColor = .white
-
+        
         view.addSubview(logoImageView)
         view.addSubview(usernameTextField)
         view.addSubview(passwordTextField)
         view.addSubview(loginButton)
-               
+        
         let url = URL(string: "https://github.githubassets.com/images/modules/logos_page/GitHub-Logo.png")
         logoImageView.kf.indicatorType = .activity
         logoImageView.kf.setImage(with: url)
@@ -103,11 +111,6 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate(constraints)
     }
     
-    // MARK: - Actions
-    @objc private func tappedLoginButton() {
-        view.endEditing(true)
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let _ = touches.first {
             view.endEditing(true)
@@ -116,7 +119,8 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UITextFieldDelegate {
+extension LoginViewController: UITextFieldDelegate {
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         usernameTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
