@@ -9,10 +9,12 @@
 import UIKit
 import  Kingfisher
 
-class HelloViewController: UIViewController {
+class SearchRepositoryViewController: UIViewController {
 
     // MARK: - Properties
-    let helloLabel: UILabel = {
+    private var username = ""
+    
+    private let helloLabel: UILabel = {
         let label = UILabel()
         label.text = "Hello"
         label.font = .boldSystemFont(ofSize: 24)
@@ -20,7 +22,7 @@ class HelloViewController: UIViewController {
         return label
     }()
     
-    let searchRepositoryLabel: UILabel = {
+    private let searchRepositoryLabel: UILabel = {
         let label = UILabel()
         label.text = "Search repository"
         label.font = .systemFont(ofSize: 24)
@@ -29,7 +31,7 @@ class HelloViewController: UIViewController {
     }()
     
     /// Изображение аватара пользователя
-    lazy var avatarImageView: UIImageView = {
+    private lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
@@ -37,26 +39,28 @@ class HelloViewController: UIViewController {
         return imageView
     }()
     
-    lazy var repositoryNameTextField: UITextField = {
+    private lazy var repositoryNameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "repository name"
         textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .none
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
-    lazy var languageTextField: UITextField = {
+    private lazy var languageTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "language"
         textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .none
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
     /// Позволяет выбрать способ сортировки для поиска
-    lazy var sortingSegmentedControl: UISegmentedControl = {
+    private lazy var sortingSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl()
         segmentedControl.insertSegment(withTitle: "ascended", at: 0, animated: false)
         segmentedControl.insertSegment(withTitle: "descended", at: 1, animated: false)
@@ -70,7 +74,7 @@ class HelloViewController: UIViewController {
         return segmentedControl
     }()
     
-    lazy var startSearchButton: UIButton = {
+    private lazy var startSearchButton: UIButton = {
         let button = UIButton()
         button.setTitle("Start search", for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
@@ -78,9 +82,17 @@ class HelloViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
+    
+    // MARK: - Initiolazers
+    convenience init(username: String) {
+        self.init()
+        helloLabel.text = "Hello, \(username)!"
+        self.username = username
+    }
+    
     // MARK: - Lifecycle methods
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
         setupUI()
@@ -95,11 +107,24 @@ class HelloViewController: UIViewController {
     
     // MARK: - Actions
     @objc func startSearchButtonPressed() {
+        
         view.endEditing(true)
+        
+        let repositoryName = repositoryNameTextField.text ?? ""
+        let language = languageTextField.text ?? ""
+        let order = sortingSegmentedControl.selectedSegmentIndex == 0 ? "asc" : "desc"
+        
+        let searchRepository = SearchRepository()
+        
+        searchRepository.searchRepositories(username: username,
+                                            repositoryName: repositoryName,
+                                            language: language,
+                                            order: order)
     }
     
     // MARK: - Setup UI
     private func setupUI() {
+        
         view.backgroundColor = .white
         
         view.addSubview(helloLabel)
@@ -117,6 +142,7 @@ class HelloViewController: UIViewController {
     
     // MARK: - Setup layout
     private func setupLayout() {
+        
         let constraints = [
             helloLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
                                             constant: 40),
@@ -156,6 +182,7 @@ class HelloViewController: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
         if let _ = touches.first {
             view.endEditing(true)
         }
@@ -163,7 +190,7 @@ class HelloViewController: UIViewController {
     }
 }
 
-extension HelloViewController: UITextFieldDelegate {
+extension SearchRepositoryViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         repositoryNameTextField.resignFirstResponder()

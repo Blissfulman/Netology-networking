@@ -25,6 +25,7 @@ class LoginViewController: UIViewController {
         textField.placeholder = "username"
         textField.textContentType = .username
         textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .none
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -36,6 +37,7 @@ class LoginViewController: UIViewController {
         textField.textContentType = .password
         textField.borderStyle = .roundedRect
         textField.isSecureTextEntry = true
+        textField.autocapitalizationType = .none
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -65,8 +67,11 @@ class LoginViewController: UIViewController {
         
         view.endEditing(true)
         
-        let helloViewController = HelloViewController()
-        navigationController?.pushViewController(helloViewController, animated: true)
+        let username = usernameTextField.text ?? ""
+        
+        let searchRepositoryViewController = SearchRepositoryViewController(username: username)
+        navigationController?.pushViewController(searchRepositoryViewController,
+                                                 animated: true)
     }
     
     // MARK: - Setup UI
