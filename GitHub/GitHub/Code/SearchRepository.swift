@@ -9,7 +9,7 @@
 import Foundation
 
 struct SearchRepository {
-//    let token = "97cc2bcf3b07d9bc7dc27748985739d8b10016d5"
+
     let scheme = "https"
     let host = "api.github.com"
     let hostPath = "https://api.github.com"
@@ -47,7 +47,8 @@ struct SearchRepository {
         
         let sharedSession = URLSession.shared
                 
-        let dataTask = sharedSession.dataTask(with: request) { (data, response, error) in
+        let dataTask = sharedSession.dataTask(with: request) {
+            (data, response, error) in
             
             if let error = error {
                 print(error.localizedDescription)
