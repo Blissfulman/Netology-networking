@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE22AB1C253CA52100942279 /* RepositoriesUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE22AB1B253CA52100942279 /* RepositoriesUnit.swift */; };
+		CE22AB1E253CB51800942279 /* FoundRepositoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE22AB1D253CB51800942279 /* FoundRepositoriesTableViewController.swift */; };
 		CE39068E25339B7500DD03CE /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE39068D25339B7500DD03CE /* Kingfisher.framework */; };
 		CE39068F25339B7500DD03CE /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE39068D25339B7500DD03CE /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE3AEFB2253B162900E10FA6 /* SearchRepositoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3AEFB1253B162900E10FA6 /* SearchRepositoryViewController.swift */; };
-		CE3AEFB9253B6B8900E10FA6 /* SearchRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3AEFB8253B6B8900E10FA6 /* SearchRepository.swift */; };
+		CE3AEFB9253B6B8900E10FA6 /* SearchingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3AEFB8253B6B8900E10FA6 /* SearchingRepository.swift */; };
 		CEB96C39253387A4000BCAD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB96C38253387A4000BCAD9 /* AppDelegate.swift */; };
 		CEB96C3D253387A4000BCAD9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB96C3C253387A4000BCAD9 /* LoginViewController.swift */; };
 		CEB96C42253387A7000BCAD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEB96C41253387A7000BCAD9 /* Assets.xcassets */; };
@@ -32,9 +34,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CE22AB1B253CA52100942279 /* RepositoriesUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoriesUnit.swift; sourceTree = "<group>"; };
+		CE22AB1D253CB51800942279 /* FoundRepositoriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundRepositoriesTableViewController.swift; sourceTree = "<group>"; };
 		CE39068D25339B7500DD03CE /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = Carthage/Build/iOS/Kingfisher.framework; sourceTree = "<group>"; };
 		CE3AEFB1253B162900E10FA6 /* SearchRepositoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRepositoryViewController.swift; sourceTree = "<group>"; };
-		CE3AEFB8253B6B8900E10FA6 /* SearchRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRepository.swift; sourceTree = "<group>"; };
+		CE3AEFB8253B6B8900E10FA6 /* SearchingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingRepository.swift; sourceTree = "<group>"; };
 		CEB96C35253387A4000BCAD9 /* GitHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEB96C38253387A4000BCAD9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CEB96C3C253387A4000BCAD9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -55,6 +59,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE22AB1F253CB53000942279 /* Additional */ = {
+			isa = PBXGroup;
+			children = (
+				CE3AEFB8253B6B8900E10FA6 /* SearchingRepository.swift */,
+				CE22AB1B253CA52100942279 /* RepositoriesUnit.swift */,
+			);
+			path = Additional;
+			sourceTree = "<group>";
+		};
+		CE22AB20253CB55B00942279 /* View controllers */ = {
+			isa = PBXGroup;
+			children = (
+				CEB96C3C253387A4000BCAD9 /* LoginViewController.swift */,
+				CE3AEFB1253B162900E10FA6 /* SearchRepositoryViewController.swift */,
+				CE22AB1D253CB51800942279 /* FoundRepositoriesTableViewController.swift */,
+			);
+			path = "View controllers";
+			sourceTree = "<group>";
+		};
 		CE39068C25339B7500DD03CE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -67,9 +90,8 @@
 			isa = PBXGroup;
 			children = (
 				CEB96C38253387A4000BCAD9 /* AppDelegate.swift */,
-				CEB96C3C253387A4000BCAD9 /* LoginViewController.swift */,
-				CE3AEFB1253B162900E10FA6 /* SearchRepositoryViewController.swift */,
-				CE3AEFB8253B6B8900E10FA6 /* SearchRepository.swift */,
+				CE22AB20253CB55B00942279 /* View controllers */,
+				CE22AB1F253CB53000942279 /* Additional */,
 			);
 			path = Code;
 			sourceTree = "<group>";
@@ -214,8 +236,10 @@
 			files = (
 				CE3AEFB2253B162900E10FA6 /* SearchRepositoryViewController.swift in Sources */,
 				CEB96C3D253387A4000BCAD9 /* LoginViewController.swift in Sources */,
+				CE22AB1C253CA52100942279 /* RepositoriesUnit.swift in Sources */,
 				CEB96C39253387A4000BCAD9 /* AppDelegate.swift in Sources */,
-				CE3AEFB9253B6B8900E10FA6 /* SearchRepository.swift in Sources */,
+				CE3AEFB9253B6B8900E10FA6 /* SearchingRepository.swift in Sources */,
+				CE22AB1E253CB51800942279 /* FoundRepositoriesTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

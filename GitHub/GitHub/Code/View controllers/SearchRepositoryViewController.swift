@@ -83,7 +83,7 @@ class SearchRepositoryViewController: UIViewController {
         return button
     }()
     
-    // MARK: - Initiolazers
+    // MARK: - Initializers
     convenience init(username: String) {
         self.init()
         helloLabel.text = "Hello, \(username)!"
@@ -114,12 +114,19 @@ class SearchRepositoryViewController: UIViewController {
         let language = languageTextField.text ?? ""
         let order = sortingSegmentedControl.selectedSegmentIndex == 0 ? "asc" : "desc"
         
-        let searchRepository = SearchRepository()
+        let searchingRepository = SearchingRepository()
         
-        searchRepository.searchRepositories(username: username,
-                                            repositoryName: repositoryName,
-                                            language: language,
-                                            order: order)
+        searchingRepository.searchRepositories(repositoryName: repositoryName,
+                                               language: language,
+                                               order: order) { (json) in
+            var repositories = RepositoriesUnit()
+            repositories = repositories.createFromJSON(fromJSON: json)
+            
+            DispatchQueue.main.async {
+                let foundRepositoriesTVC = FoundRepositoriesTableViewController(repositories: repositories)
+                self.navigationController?.pushViewController(foundRepositoriesTVC, animated: true)
+            }
+        }
     }
     
     // MARK: - Setup UI
