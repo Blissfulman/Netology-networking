@@ -59,7 +59,9 @@ class LoginViewController: UIViewController {
         setupUI()
         setupLayout()
         
-        loginButton.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
+        loginButton.addTarget(self,
+                              action: #selector(loginButtonPressed),
+                              for: .touchUpInside)
     }
     
     // MARK: - Actions
@@ -124,6 +126,7 @@ class LoginViewController: UIViewController {
     }
 }
 
+// MARK: - TextFieldDelegate
 extension LoginViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

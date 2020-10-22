@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SearchingRepository {
+struct SearchRepositories {
 
     let scheme = "https"
     let host = "api.github.com"
@@ -20,13 +20,13 @@ class SearchingRepository {
         "Accept" : "application/vnd.github.v3+json"
     ]
     
-    var repositories = RepositoriesUnit()
+    let repositories = FoundRepositories()
     
     /// Поиск репозиториев с переданными параметрами.
-    func searchRepositories(repositoryName: String,
-                            language: String,
-                            order: String,
-                            completion: @escaping (String) -> Void) {
+    func search(name repositoryName: String,
+                language: String,
+                order: String,
+                completion: @escaping (String) -> Void) {
         
         var urlComponents = URLComponents()
         
@@ -36,7 +36,8 @@ class SearchingRepository {
         
         urlComponents.queryItems = [
             URLQueryItem(name: "q", value: "\(repositoryName)+language:\(language)"),
-            URLQueryItem(name: "order", value: "\(order)")
+            URLQueryItem(name: "order", value: "\(order)"),
+            URLQueryItem(name: "per_page", value: "100")
         ]
         
         guard let url = urlComponents.url else { return }
@@ -70,7 +71,7 @@ class SearchingRepository {
                 return
             }
             
-            print("Received data:\n\(jsonData)")
+//            print("Received data:\n\(jsonData)")
             
             completion(jsonData)
         }

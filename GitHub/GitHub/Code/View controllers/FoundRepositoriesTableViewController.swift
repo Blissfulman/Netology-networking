@@ -7,18 +7,16 @@
 //
 
 import UIKit
-import Kingfisher
 
 class FoundRepositoriesTableViewController: UITableViewController {
     
     // MARK: - Properties
-    private var repositoriesUnit = RepositoriesUnit()
+    private var foundRepositories = FoundRepositories()
     
     // MARK: - Initializers
-    convenience init(repositories: RepositoriesUnit) {
+    convenience init(repositories: FoundRepositories) {
         self.init()
-
-        repositoriesUnit = repositories
+        foundRepositories = repositories
     }
     
     // MARK: - Lifecycle methods
@@ -26,9 +24,7 @@ class FoundRepositoriesTableViewController: UITableViewController {
         super.viewDidLoad()
         
         setupUI()
-        
         tableView.dataSource = self
-        print(repositoriesUnit.repositories.count)
     }
     
     // MARK: - Setup UI
@@ -41,15 +37,15 @@ class FoundRepositoriesTableViewController: UITableViewController {
         let headerLabel = UILabel()
         headerView.addSubview(headerLabel)
 
-        headerLabel.text = "Repositories found: \(repositoriesUnit.count)"
+        headerLabel.text = "Repositories found: \(foundRepositories.count)"
         headerLabel.font = .boldSystemFont(ofSize: 20)
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         
         let constraints = [
-        headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
-        headerLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: 16),
-        headerLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 0),
-        headerLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0)
+            headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
+            headerLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: 16),
+            headerLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 0),
+            headerLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0)
         ]
         NSLayoutConstraint.activate(constraints)
     }
@@ -59,18 +55,12 @@ class FoundRepositoriesTableViewController: UITableViewController {
 extension FoundRepositoriesTableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        repositoriesUnit.count
+        foundRepositories.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let url = URL(string: repositoriesUnit.repositories[indexPath.row].owner.avatarURL)
-        
-        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        cell.imageView?.kf.indicatorType = .activity
-        cell.imageView?.kf.setImage(with: url)
-        cell.textLabel?.text = repositoriesUnit.repositories[indexPath.row].name
-        
+        let cell = FoundRepositoryTableViewCell()
+        cell.configure(repository: foundRepositories.repositories[indexPath.row])
         return cell
     }
 }

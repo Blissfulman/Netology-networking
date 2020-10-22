@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-struct RepositoriesUnit: Codable {
+struct FoundRepositories: Codable {
     
     var count = 0
     var repositories = [Repository]()
@@ -43,21 +43,18 @@ struct RepositoriesUnit: Codable {
         }
     }
     
-        
-    func createFromJSON(fromJSON json: String) -> RepositoriesUnit {
+    static func createFromJSON(_ json: String) -> FoundRepositories {
         
         guard let jsonData = json.data(using: .utf8) else {
-            return RepositoriesUnit()
+            return FoundRepositories()
         }
         
         let decoder = JSONDecoder()
         
-        guard let result = try? decoder.decode(RepositoriesUnit.self, from: jsonData) else {
-            print("Fail")
-            return RepositoriesUnit()
+        guard let result = try? decoder.decode(FoundRepositories.self, from: jsonData) else {
+            return FoundRepositories()
         }
-        print()
-        print(result)
+
         return result
     }
 }
