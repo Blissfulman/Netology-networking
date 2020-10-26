@@ -62,7 +62,6 @@ class LoginViewController: UIViewController {
                 
         setupUI()
         setupLayout()
-        
         loginButton.addTarget(self,
                               action: #selector(loginButtonPressed),
                               for: .touchUpInside)

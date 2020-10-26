@@ -24,7 +24,6 @@ class FoundRepositoriesTableViewController: UITableViewController {
         super.viewDidLoad()
         
         setupUI()
-        tableView.dataSource = self
     }
     
     // MARK: - Setup UI
@@ -53,6 +52,7 @@ class FoundRepositoriesTableViewController: UITableViewController {
 
 extension FoundRepositoriesTableViewController {
     
+    // MARK: - TableViewDataSourse
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         foundRepositories.count
     }
@@ -61,5 +61,11 @@ extension FoundRepositoriesTableViewController {
         let cell = FoundRepositoryTableViewCell()
         cell.configure(repository: foundRepositories.repositories[indexPath.row])
         return cell
+    }
+    
+    // MARK: - TableViewDelegate
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let webVC = WebViewController(url: foundRepositories.repositories[indexPath.row].url)
+        self.navigationController?.pushViewController(webVC, animated: true)
     }
 }

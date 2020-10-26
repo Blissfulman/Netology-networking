@@ -100,7 +100,6 @@ class SearchRepositoryViewController: UIViewController {
         
         setupUI()
         setupLayout()
-        
         startSearchButton.addTarget(self,
                                     action: #selector(startSearchButtonPressed),
                                     for: .touchUpInside)
@@ -175,6 +174,7 @@ class SearchRepositoryViewController: UIViewController {
         NSLayoutConstraint.activate(constraints)
     }
     
+    // Скрытие клавиатуры по тапу в свободное место вью
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
@@ -206,6 +206,7 @@ class SearchRepositoryViewController: UIViewController {
     }
 }
 
+// MARK: - TextFieldDelegate
 extension SearchRepositoryViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
