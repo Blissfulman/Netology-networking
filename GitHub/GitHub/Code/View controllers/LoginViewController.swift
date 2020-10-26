@@ -26,6 +26,8 @@ class LoginViewController: UIViewController {
         textField.textContentType = .username
         textField.borderStyle = .roundedRect
         textField.autocapitalizationType = .none
+        textField.returnKeyType = .next
+        textField.enablesReturnKeyAutomatically = true
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -38,6 +40,8 @@ class LoginViewController: UIViewController {
         textField.borderStyle = .roundedRect
         textField.isSecureTextEntry = true
         textField.autocapitalizationType = .none
+        textField.returnKeyType = .done
+        textField.enablesReturnKeyAutomatically = true
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -119,10 +123,9 @@ class LoginViewController: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let _ = touches.first {
-            view.endEditing(true)
-        }
         super.touchesBegan(touches, with: event)
+        
+        view.endEditing(true)
     }
 }
 
@@ -130,8 +133,13 @@ class LoginViewController: UIViewController {
 extension LoginViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        usernameTextField.resignFirstResponder()
-        passwordTextField.resignFirstResponder()
+        
+        if textField == usernameTextField {
+            textField.resignFirstResponder()
+            passwordTextField.becomeFirstResponder()
+        } else {
+            loginButtonPressed()
+        }
         return true
     }
 }

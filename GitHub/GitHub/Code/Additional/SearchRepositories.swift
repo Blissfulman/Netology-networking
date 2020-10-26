@@ -28,21 +28,9 @@ struct SearchRepositories {
                 order: String,
                 completion: @escaping (String) -> Void) {
         
-        var urlComponents = URLComponents()
-        
-        urlComponents.scheme = scheme
-        urlComponents.host = host
-        urlComponents.path = searchRepoPath
-        
-        urlComponents.queryItems = [
-            URLQueryItem(name: "q", value: "\(repositoryName)+language:\(language)"),
-            URLQueryItem(name: "order", value: "\(order)"),
-            URLQueryItem(name: "per_page", value: "100")
-        ]
-        
-        guard let url = urlComponents.url else { return }
-        
-        print("Search request url: \(url)")
+        guard let url = getURL(repositoryName: repositoryName,
+                               language: language,
+                               order: order) else { return }
         
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = defaultHeaders
@@ -77,5 +65,29 @@ struct SearchRepositories {
         }
         
         dataTask.resume()
+    }
+}
+
+extension SearchRepositories {
+    
+    private func getURL(repositoryName: String,
+                        language: String,
+                        order: String) -> URL? {
+        
+        var urlComponents = URLComponents()
+        
+        urlComponents.scheme = scheme
+        urlComponents.host = host
+        urlComponents.path = searchRepoPath
+        
+        urlComponents.queryItems = [
+            URLQueryItem(name: "q", value: "\(repositoryName)+language:\(language)"),
+            URLQueryItem(name: "order", value: "\(order)"),
+            URLQueryItem(name: "per_page", value: "100")
+        ]
+        
+        guard let url = urlComponents.url else { return nil }
+        print("Search request url: \(url)")
+        return url
     }
 }

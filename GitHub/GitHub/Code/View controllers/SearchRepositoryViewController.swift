@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import  Kingfisher
+import Kingfisher
 
 class SearchRepositoryViewController: UIViewController {
 
@@ -43,6 +43,8 @@ class SearchRepositoryViewController: UIViewController {
         textField.placeholder = "repository name"
         textField.borderStyle = .roundedRect
         textField.autocapitalizationType = .none
+        textField.returnKeyType = .next
+        textField.enablesReturnKeyAutomatically = true
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -53,6 +55,8 @@ class SearchRepositoryViewController: UIViewController {
         textField.placeholder = "language"
         textField.borderStyle = .roundedRect
         textField.autocapitalizationType = .none
+        textField.returnKeyType = .search
+        textField.enablesReturnKeyAutomatically = true
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -172,10 +176,9 @@ class SearchRepositoryViewController: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let _ = touches.first {
-            view.endEditing(true)
-        }
         super.touchesBegan(touches, with: event)
+        
+        view.endEditing(true)
     }
     
     // MARK: - Private methods
@@ -206,8 +209,13 @@ class SearchRepositoryViewController: UIViewController {
 extension SearchRepositoryViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        repositoryNameTextField.resignFirstResponder()
-        languageTextField.resignFirstResponder()
+        
+        if textField == repositoryNameTextField {
+            textField.resignFirstResponder()
+            languageTextField.becomeFirstResponder()
+        } else {
+            startSearchButtonPressed()
+        }
         return true
     }
 }

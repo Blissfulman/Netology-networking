@@ -82,7 +82,7 @@ class FoundRepositoryTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate(constraints)
     }
     
-    func configure(repository: FoundRepositories.Repository) {
+    func configure(repository: Repository) {
         
         setupUI()
         setupLayout()
