@@ -73,7 +73,7 @@
 			path = Additional;
 			sourceTree = "<group>";
 		};
-		CE22AB20253CB55B00942279 /* Views */ = {
+		CE22AB20253CB55B00942279 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				CEB96C3C253387A4000BCAD9 /* LoginViewController.swift */,
@@ -81,7 +81,7 @@
 				CE22AB1D253CB51800942279 /* FoundRepositoriesTableViewController.swift */,
 				CE24448D25474311009F0D00 /* WebViewController.swift */,
 			);
-			path = Views;
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 		CE39068C25339B7500DD03CE /* Frameworks */ = {
@@ -96,19 +96,19 @@
 			isa = PBXGroup;
 			children = (
 				CEB96C38253387A4000BCAD9 /* AppDelegate.swift */,
-				CE22AB20253CB55B00942279 /* Views */,
+				CE22AB20253CB55B00942279 /* View Controllers */,
 				CE22AB1F253CB53000942279 /* Additional */,
 			);
 			path = Code;
 			sourceTree = "<group>";
 		};
-		CE3AEFB6253B670600E10FA6 /* Supporting */ = {
+		CE3AEFB6253B670600E10FA6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				CEB96C43253387A7000BCAD9 /* LaunchScreen.storyboard */,
 				CEB96C46253387A7000BCAD9 /* Info.plist */,
 			);
-			path = Supporting;
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		CE3AEFB7253B677500E10FA6 /* Resources */ = {
@@ -141,7 +141,7 @@
 			children = (
 				CE3AEFB3253B660A00E10FA6 /* Code */,
 				CE3AEFB7253B677500E10FA6 /* Resources */,
-				CE3AEFB6253B670600E10FA6 /* Supporting */,
+				CE3AEFB6253B670600E10FA6 /* Supporting Files */,
 			);
 			path = GitHub;
 			sourceTree = "<group>";
@@ -388,7 +388,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = GitHub/Supporting/Info.plist;
+				INFOPLIST_FILE = "GitHub/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -409,7 +409,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = GitHub/Supporting/Info.plist;
+				INFOPLIST_FILE = "GitHub/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
