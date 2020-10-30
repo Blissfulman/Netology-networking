@@ -13,14 +13,14 @@ class LoginViewController: UIViewController {
 
     // MARK: - Properties
     /// Изображение логотипа
-    lazy var logoImageView: UIImageView = {
+    private lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    lazy var usernameTextField: UITextField = {
+    private lazy var usernameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "username"
         textField.textContentType = .username
@@ -33,7 +33,7 @@ class LoginViewController: UIViewController {
         return textField
     }()
     
-    lazy var passwordTextField: UITextField = {
+    private lazy var passwordTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "password"
         textField.textContentType = .password
@@ -47,7 +47,7 @@ class LoginViewController: UIViewController {
         return textField
     }()
     
-    lazy var loginButton: UIButton = {
+    private lazy var loginButton: UIButton = {
         let button = UIButton()
         button.setTitle("Login", for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
@@ -55,6 +55,8 @@ class LoginViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    private let logoURL = "https://github.githubassets.com/images/modules/logos_page/GitHub-Logo.png"
     
     // MARK: - Lifecycle methods
     override func viewDidLoad() {
@@ -67,28 +69,50 @@ class LoginViewController: UIViewController {
                               for: .touchUpInside)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        usernameTextField.text = nil
+        passwordTextField.text = nil
+    }
+    
     // MARK: - Actions
     @objc private func loginButtonPressed() {
         
         view.endEditing(true)
         
         let username = usernameTextField.text ?? ""
+        let password = passwordTextField.text ?? ""
         
-        let searchRepositoryViewController = SearchRepositoryViewController(username: username)
-        navigationController?.pushViewController(searchRepositoryViewController,
-                                                 animated: true)
+        UserAuthorizationRequest.start(username: username, password: password) {
+            [weak self] (statusCode, json) in
+                           
+            guard let `self` = self else { return }
+                           
+            guard statusCode == 200 else {
+                print("Error authorization")
+                return
+            }
+            
+            if let user = User.createFromJSON(json) {
+                DispatchQueue.main.async {
+                    let searchRepositoryViewController = SearchRepositoryViewController(user: user)
+                    self.navigationController?.pushViewController(searchRepositoryViewController,
+                                                                  animated: true)
+            }
+        }
     }
-    
+}
+            
     // MARK: - Setup UI
     private func setupUI() {
         view.backgroundColor = .white
-        
         view.addSubview(logoImageView)
         view.addSubview(usernameTextField)
         view.addSubview(passwordTextField)
         view.addSubview(loginButton)
         
-        let url = URL(string: "https://github.githubassets.com/images/modules/logos_page/GitHub-Logo.png")
+        let url = URL(string: logoURL)
         logoImageView.kf.indicatorType = .activity
         logoImageView.kf.setImage(with: url)
     }
@@ -123,7 +147,6 @@ class LoginViewController: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        
         view.endEditing(true)
     }
 }
@@ -134,7 +157,6 @@ extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         if textField == usernameTextField {
-            textField.resignFirstResponder()
             passwordTextField.becomeFirstResponder()
         } else {
             loginButtonPressed()

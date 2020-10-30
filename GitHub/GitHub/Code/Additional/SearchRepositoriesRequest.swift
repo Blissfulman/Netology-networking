@@ -8,25 +8,22 @@
 
 import Foundation
 
-struct SearchRepositories {
+struct SearchRepositoriesRequest {
 
     let scheme = "https"
     let host = "api.github.com"
-    let hostPath = "https://api.github.com"
     let searchRepoPath = "/search/repositories"
     
-    let defaultHeaders = [
-        "Content-Type" : "application/json",
-        "Accept" : "application/vnd.github.v3+json"
-    ]
+    let defaultHeaders = ["Content-Type" : "application/json",
+                          "Accept" : "application/vnd.github.v3+json"]
     
     let repositories = FoundRepositories()
     
     /// Поиск репозиториев с переданными параметрами.
-    func search(name repositoryName: String,
-                language: String,
-                order: String,
-                completion: @escaping (String) -> Void) {
+    func start(name repositoryName: String,
+               language: String,
+               order: String,
+               completion: @escaping (String) -> Void) {
         
         guard let url = getURL(repositoryName: repositoryName,
                                language: language,
@@ -34,10 +31,8 @@ struct SearchRepositories {
         
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = defaultHeaders
-        
-        let sharedSession = URLSession.shared
-                
-        let dataTask = sharedSession.dataTask(with: request) {
+                        
+        URLSession.shared.dataTask(with: request) {
             (data, response, error) in
             
             if let error = error {
@@ -58,17 +53,13 @@ struct SearchRepositories {
                 print("Data encoding failed")
                 return
             }
-            
-//            print("Received data:\n\(jsonData)")
-            
+                        
             completion(jsonData)
-        }
-        
-        dataTask.resume()
+        }.resume()
     }
 }
 
-extension SearchRepositories {
+extension SearchRepositoriesRequest {
     
     private func getURL(repositoryName: String,
                         language: String,

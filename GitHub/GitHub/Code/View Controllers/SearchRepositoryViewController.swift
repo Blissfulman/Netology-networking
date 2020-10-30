@@ -12,7 +12,7 @@ import Kingfisher
 class SearchRepositoryViewController: UIViewController {
 
     // MARK: - Properties
-    private var username = ""
+    private var user: User!
     
     private let helloLabel: UILabel = {
         let label = UILabel()
@@ -87,10 +87,9 @@ class SearchRepositoryViewController: UIViewController {
     }()
     
     // MARK: - Initializers
-    convenience init(username: String) {
+    convenience init(user: User) {
         self.init()
-        helloLabel.text = username.isEmpty ? "Hello" : "Hello, \(username)!"
-        self.username = username
+        self.user = user
     }
     
     // MARK: - Lifecycle methods
@@ -128,7 +127,9 @@ class SearchRepositoryViewController: UIViewController {
         view.addSubview(sortingSegmentedControl)
         view.addSubview(startSearchButton)
         
-        let url = URL(string: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png")
+        helloLabel.text = "Hello, \(user.login)!"
+        
+        let url = URL(string: user.avatarURL)
         avatarImageView.kf.indicatorType = .activity
         avatarImageView.kf.setImage(with: url)
     }
@@ -188,14 +189,15 @@ class SearchRepositoryViewController: UIViewController {
         let language = languageTextField.text ?? ""
         let order = sortingSegmentedControl.selectedSegmentIndex == 0 ? "asc" : "desc"
         
-        let searchRepository = SearchRepositories()
+        let searchRepositoriesRequest = SearchRepositoriesRequest()
         
-        searchRepository.search(name: name, language: language, order: order) {
-            [weak self] (json) in
+        searchRepositoriesRequest.start(name: name,
+                                        language: language,
+                                        order: order) { [weak self] (json) in
             
             guard let `self` = self else { return }
             
-            let repositories = FoundRepositories.createFromJSON(json)
+            guard let repositories = FoundRepositories.createFromJSON(json) else { return }
             
             DispatchQueue.main.async {
                 let foundRepositoriesTVC = FoundRepositoriesTableViewController(repositories: repositories)
@@ -212,7 +214,6 @@ extension SearchRepositoryViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         if textField == repositoryNameTextField {
-            textField.resignFirstResponder()
             languageTextField.becomeFirstResponder()
         } else {
             startSearchButtonPressed()
