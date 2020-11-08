@@ -14,9 +14,9 @@ class FoundRepositoriesTableViewController: UITableViewController {
     private var foundRepositories = FoundRepositories()
     
     // MARK: - Initializers
-    convenience init(repositories: FoundRepositories) {
+    convenience init(_ foundRepositories: FoundRepositories) {
         self.init()
-        foundRepositories = repositories
+        self.foundRepositories = foundRepositories
     }
     
     // MARK: - Lifecycle methods

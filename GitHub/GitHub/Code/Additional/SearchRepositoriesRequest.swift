@@ -16,14 +16,12 @@ struct SearchRepositoriesRequest {
     
     let defaultHeaders = ["Content-Type" : "application/json",
                           "Accept" : "application/vnd.github.v3+json"]
-    
-    let repositories = FoundRepositories()
-    
+        
     /// Поиск репозиториев с переданными параметрами.
     func start(name repositoryName: String,
                language: String,
                order: String,
-               completion: @escaping (String) -> Void) {
+               completion: @escaping (Data) -> Void) {
         
         guard let url = getURL(repositoryName: repositoryName,
                                language: language,
@@ -31,7 +29,7 @@ struct SearchRepositoriesRequest {
         
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = defaultHeaders
-                        
+        
         URLSession.shared.dataTask(with: request) {
             (data, response, error) in
             
@@ -44,13 +42,8 @@ struct SearchRepositoriesRequest {
                 print("http status code: \(httpResponse.statusCode)")
             }
             
-            guard let data = data else {
+            guard let jsonData = data else {
                 print("No data received")
-                return
-            }
-            
-            guard let jsonData = String(data: data, encoding: .utf8) else {
-                print("Data encoding failed")
                 return
             }
                         

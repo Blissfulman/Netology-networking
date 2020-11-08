@@ -42,6 +42,7 @@ class LoginViewController: UIViewController {
         textField.autocapitalizationType = .none
         textField.returnKeyType = .done
         textField.enablesReturnKeyAutomatically = true
+        textField.clearsOnBeginEditing = true
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -85,24 +86,27 @@ class LoginViewController: UIViewController {
         let password = passwordTextField.text ?? ""
         
         UserAuthorizationRequest.start(username: username, password: password) {
-            [weak self] (statusCode, json) in
-                           
+            [weak self] (statusCode, jsonData) in
+            
             guard let `self` = self else { return }
-                           
+            
             guard statusCode == 200 else {
                 print("Error authorization")
                 return
             }
             
-            if let user = User.createFromJSON(json) {
+            if let user = User.createFromJSON(jsonData) {
                 DispatchQueue.main.async {
-                    let searchRepositoryViewController = SearchRepositoryViewController(user: user)
-                    self.navigationController?.pushViewController(searchRepositoryViewController,
-                                                                  animated: true)
+                    let searchRepositoryViewController =
+                        SearchRepositoryViewController(user: user)
+                    self.navigationController?.pushViewController(
+                        searchRepositoryViewController,
+                        animated: true
+                    )
+                }
             }
         }
     }
-}
             
     // MARK: - Setup UI
     private func setupUI() {
@@ -120,27 +124,45 @@ class LoginViewController: UIViewController {
     // MARK: - Setup layout
     private func setupLayout() {
         let constraints = [
-            logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
-                                               constant: 100),
-            logoImageView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            logoImageView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor,
-                                                 multiplier: 0.8),
-            logoImageView.heightAnchor.constraint(equalTo: logoImageView.widthAnchor,
-                                                  multiplier: 0.5),
+            logoImageView.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100
+            ),
+            logoImageView.centerXAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.centerXAnchor
+            ),
+            logoImageView.widthAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.8
+            ),
+            logoImageView.heightAnchor.constraint(
+                equalTo: logoImageView.widthAnchor, multiplier: 0.5
+            ),
             
-            usernameTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor,
-                                                   constant: 100),
-            usernameTextField.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            usernameTextField.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor,
-                                                     multiplier: 0.7),
+            usernameTextField.topAnchor.constraint(
+                equalTo: logoImageView.bottomAnchor, constant: 100
+            ),
+            usernameTextField.centerXAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.centerXAnchor
+            ),
+            usernameTextField.widthAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.7
+            ),
             
-            passwordTextField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor,
-                                                   constant: 20),
-            passwordTextField.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            passwordTextField.widthAnchor.constraint(equalTo: usernameTextField.widthAnchor),
+            passwordTextField.topAnchor.constraint(
+                equalTo: usernameTextField.bottomAnchor, constant: 20
+            ),
+            passwordTextField.centerXAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.centerXAnchor
+            ),
+            passwordTextField.widthAnchor.constraint(
+                equalTo: usernameTextField.widthAnchor
+            ),
             
-            loginButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 50),
-            loginButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor)
+            loginButton.topAnchor.constraint(
+                equalTo: passwordTextField.bottomAnchor, constant: 50
+            ),
+            loginButton.centerXAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.centerXAnchor
+            )
         ]
         NSLayoutConstraint.activate(constraints)
     }

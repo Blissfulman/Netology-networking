@@ -24,11 +24,11 @@ struct Repository: Codable {
     
     struct Owner: Codable {
         var login: String
-        var avatarURL: String
+        var avatarUrl: String
         
         private enum CodingKeys: String, CodingKey {
             case login
-            case avatarURL = "avatar_url"
+            case avatarUrl = "avatar_url"
         }
     }
 }

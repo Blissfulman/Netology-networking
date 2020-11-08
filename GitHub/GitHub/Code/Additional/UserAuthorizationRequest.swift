@@ -13,7 +13,7 @@ struct UserAuthorizationRequest {
     /// Запрос авторизации пользователя.
     static func start(username: String,
                       password: String,
-                      completion: @escaping (Int, String) -> Void) {
+                      completion: @escaping (Int, Data) -> Void) {
         
         let stringURL = "https://api.github.com/user"
                 
@@ -26,7 +26,7 @@ struct UserAuthorizationRequest {
         var request = URLRequest(url: url)
 
         request.setValue("Basic \(base64LoginString)", forHTTPHeaderField: "Authorization")
-                        
+        
         URLSession.shared.dataTask(with: request) {
             (data, response, error) in
             
@@ -42,16 +42,11 @@ struct UserAuthorizationRequest {
                 statusCode = httpResponse.statusCode
             }
             
-            guard let data = data else {
+            guard let jsonData = data else {
                 print("No data received")
                 return
             }
             
-            guard let jsonData = String(data: data, encoding: .utf8) else {
-                print("Data encoding failed")
-                return
-            }
-                        
             completion(statusCode, jsonData)
         }.resume()
     }

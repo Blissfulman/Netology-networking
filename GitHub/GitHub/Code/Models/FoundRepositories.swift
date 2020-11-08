@@ -10,24 +10,23 @@ import Foundation
 
 struct FoundRepositories: Codable {
     
-    var count = 0
-    var repositories = [Repository]()
+    var count: Int
+    var repositories: [Repository]
         
     private enum CodingKeys: String, CodingKey {
         case count = "total_count"
         case repositories = "items"
     }
     
-    static func createFromJSON(_ json: String) -> FoundRepositories? {
+    init() {
+        count = 0
+        repositories = []
+    }
+    
+    static func createFromJSON(_ jsonData: Data) -> FoundRepositories? {
         
-        guard let jsonData = json.data(using: .utf8) else {
-            return nil
-        }
-        
-        let decoder = JSONDecoder()
-        
-        guard let result = try? decoder.decode(FoundRepositories.self,
-                                               from: jsonData) else {
+        guard let result = try? JSONDecoder().decode(FoundRepositories.self,
+                                                     from: jsonData) else {
             return nil
         }
 

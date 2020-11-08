@@ -87,7 +87,7 @@ class FoundRepositoryTableViewCell: UITableViewCell {
         setupUI()
         setupLayout()
         
-        let url = URL(string: repository.owner.avatarURL)
+        let url = URL(string: repository.owner.avatarUrl)
                 
         repositoryNameLabel.text = repository.name
         repositoryDescriptionLabel.text = repository.description

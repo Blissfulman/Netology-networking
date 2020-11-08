@@ -11,20 +11,15 @@ import Foundation
 struct User: Codable {
     
     let login: String
-    let avatarURL: String
+    let avatarUrl: String
     
-    private enum CodingKeys: String, CodingKey {
-        case login
-        case avatarURL = "avatar_url"
-    }
-    
-    static func createFromJSON(_ json: String) -> User? {
-        
-        guard let jsonData = json.data(using: .utf8) else { return nil }
+    static func createFromJSON(_ jsonData: Data) -> User? {
         
         let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
         
-        guard let result = try? decoder.decode(User.self, from: jsonData) else {
+        guard let result = try? decoder.decode(User.self,
+                                               from: jsonData) else {
             return nil
         }
 

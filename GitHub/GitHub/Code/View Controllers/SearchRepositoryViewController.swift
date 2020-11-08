@@ -129,7 +129,7 @@ class SearchRepositoryViewController: UIViewController {
         
         helloLabel.text = "Hello, \(user.login)!"
         
-        let url = URL(string: user.avatarURL)
+        let url = URL(string: user.avatarUrl)
         avatarImageView.kf.indicatorType = .activity
         avatarImageView.kf.setImage(with: url)
     }
@@ -187,20 +187,25 @@ class SearchRepositoryViewController: UIViewController {
         
         let name = repositoryNameTextField.text ?? ""
         let language = languageTextField.text ?? ""
-        let order = sortingSegmentedControl.selectedSegmentIndex == 0 ? "asc" : "desc"
+        let order = sortingSegmentedControl.selectedSegmentIndex == 0
+            ? "asc" : "desc"
         
         let searchRepositoriesRequest = SearchRepositoriesRequest()
         
-        searchRepositoriesRequest.start(name: name,
-                                        language: language,
-                                        order: order) { [weak self] (json) in
+        searchRepositoriesRequest.start(
+            name: name,
+            language: language,
+            order: order
+        ) { [weak self] (jsonData) in
             
             guard let `self` = self else { return }
             
-            guard let repositories = FoundRepositories.createFromJSON(json) else { return }
+            guard let foundRepositories =
+                FoundRepositories.createFromJSON(jsonData) else { return }
             
             DispatchQueue.main.async {
-                let foundRepositoriesTVC = FoundRepositoriesTableViewController(repositories: repositories)
+                let foundRepositoriesTVC =
+                    FoundRepositoriesTableViewController(foundRepositories)
                 self.navigationController?.pushViewController(foundRepositoriesTVC,
                                                               animated: true)
             }
