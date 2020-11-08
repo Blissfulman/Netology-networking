@@ -14,14 +14,13 @@
 		CE22AB1E253CB51800942279 /* FoundRepositoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE22AB1D253CB51800942279 /* FoundRepositoriesTableViewController.swift */; };
 		CE2412DC2540ABCF0059B235 /* FoundRepositoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2412DB2540ABCF0059B235 /* FoundRepositoryTableViewCell.swift */; };
 		CE24448E25474311009F0D00 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE24448D25474311009F0D00 /* WebViewController.swift */; };
-		CE39068E25339B7500DD03CE /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE39068D25339B7500DD03CE /* Kingfisher.framework */; };
-		CE39068F25339B7500DD03CE /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE39068D25339B7500DD03CE /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE3AEFB2253B162900E10FA6 /* SearchRepositoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3AEFB1253B162900E10FA6 /* SearchRepositoryViewController.swift */; };
 		CE3AEFB9253B6B8900E10FA6 /* SearchRepositoriesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3AEFB8253B6B8900E10FA6 /* SearchRepositoriesRequest.swift */; };
 		CEB96C39253387A4000BCAD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB96C38253387A4000BCAD9 /* AppDelegate.swift */; };
 		CEB96C3D253387A4000BCAD9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB96C3C253387A4000BCAD9 /* LoginViewController.swift */; };
 		CEB96C42253387A7000BCAD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEB96C41253387A7000BCAD9 /* Assets.xcassets */; };
 		CEB96C45253387A7000BCAD9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEB96C43253387A7000BCAD9 /* LaunchScreen.storyboard */; };
+		FA29D6698415C40670629FA5 /* Pods_GitHub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5F07F190429B15964750EDA /* Pods_GitHub.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,7 +30,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				CE39068F25339B7500DD03CE /* Kingfisher.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -39,6 +37,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6E75FF4FA2A1ED13E965E8F9 /* Pods-GitHub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GitHub.release.xcconfig"; path = "Target Support Files/Pods-GitHub/Pods-GitHub.release.xcconfig"; sourceTree = "<group>"; };
+		9A505E9AF1170C2F175DA9E8 /* Pods-GitHub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GitHub.debug.xcconfig"; path = "Target Support Files/Pods-GitHub/Pods-GitHub.debug.xcconfig"; sourceTree = "<group>"; };
 		CE1C7E4B2549E65B00AA4F93 /* UserAuthorizationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthorizationRequest.swift; sourceTree = "<group>"; };
 		CE1C7E4E2549E9F000AA4F93 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CE1C7E502549EA6B00AA4F93 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
@@ -46,7 +46,6 @@
 		CE22AB1D253CB51800942279 /* FoundRepositoriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundRepositoriesTableViewController.swift; sourceTree = "<group>"; };
 		CE2412DB2540ABCF0059B235 /* FoundRepositoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FoundRepositoryTableViewCell.swift; path = GitHub/Code/Additional/FoundRepositoryTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		CE24448D25474311009F0D00 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
-		CE39068D25339B7500DD03CE /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = Carthage/Build/iOS/Kingfisher.framework; sourceTree = "<group>"; };
 		CE3AEFB1253B162900E10FA6 /* SearchRepositoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRepositoryViewController.swift; sourceTree = "<group>"; };
 		CE3AEFB8253B6B8900E10FA6 /* SearchRepositoriesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRepositoriesRequest.swift; sourceTree = "<group>"; };
 		CEB96C35253387A4000BCAD9 /* GitHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,6 +54,7 @@
 		CEB96C41253387A7000BCAD9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CEB96C44253387A7000BCAD9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CEB96C46253387A7000BCAD9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F5F07F190429B15964750EDA /* Pods_GitHub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GitHub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,13 +62,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE39068E25339B7500DD03CE /* Kingfisher.framework in Frameworks */,
+				FA29D6698415C40670629FA5 /* Pods_GitHub.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6A88561655BC1CDA6FB8137D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9A505E9AF1170C2F175DA9E8 /* Pods-GitHub.debug.xcconfig */,
+				6E75FF4FA2A1ED13E965E8F9 /* Pods-GitHub.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		CE1C7E4D2549E9D200AA4F93 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -103,7 +113,7 @@
 		CE39068C25339B7500DD03CE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CE39068D25339B7500DD03CE /* Kingfisher.framework */,
+				F5F07F190429B15964750EDA /* Pods_GitHub.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -142,6 +152,7 @@
 				CEB96C37253387A4000BCAD9 /* GitHub */,
 				CEB96C36253387A4000BCAD9 /* Products */,
 				CE39068C25339B7500DD03CE /* Frameworks */,
+				6A88561655BC1CDA6FB8137D /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -170,11 +181,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CEB96C49253387A7000BCAD9 /* Build configuration list for PBXNativeTarget "GitHub" */;
 			buildPhases = (
+				9C329611E038D15315496296 /* [CP] Check Pods Manifest.lock */,
 				CEB96C31253387A4000BCAD9 /* Sources */,
 				CEB96C32253387A4000BCAD9 /* Frameworks */,
 				CEB96C33253387A4000BCAD9 /* Resources */,
 				CE39069025339B7500DD03CE /* Embed Frameworks */,
 				CE39069125339B8C00DD03CE /* ShellScript */,
+				A5FD4868BD8DE3D9AD3FC10B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -231,6 +244,45 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		9C329611E038D15315496296 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GitHub-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A5FD4868BD8DE3D9AD3FC10B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GitHub/Pods-GitHub-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GitHub/Pods-GitHub-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GitHub/Pods-GitHub-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		CE39069125339B8C00DD03CE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
@@ -401,6 +453,7 @@
 		};
 		CEB96C4A253387A7000BCAD9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9A505E9AF1170C2F175DA9E8 /* Pods-GitHub.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -422,6 +475,7 @@
 		};
 		CEB96C4B253387A7000BCAD9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6E75FF4FA2A1ED13E965E8F9 /* Pods-GitHub.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
