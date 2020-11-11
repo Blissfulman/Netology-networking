@@ -28,3 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
+extension AppDelegate {
+    static let appServiceName = "GitHubApp"
+}

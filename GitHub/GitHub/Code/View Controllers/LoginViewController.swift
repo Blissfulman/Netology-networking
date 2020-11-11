@@ -69,7 +69,7 @@ class LoginViewController: UIViewController {
         loginButton.addTarget(self,
                               action: #selector(loginButtonPressed),
                               for: .touchUpInside)
-        authenticateUser()
+        checkingKeychainData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -87,27 +87,7 @@ class LoginViewController: UIViewController {
         let username = usernameTextField.text ?? ""
         let password = passwordTextField.text ?? ""
         
-        UserAuthorizationRequest.start(username: username, password: password) {
-            [weak self] (statusCode, jsonData) in
-            
-            guard let `self` = self else { return }
-            
-            guard statusCode == 200 else {
-                print("Error authorization")
-                return
-            }
-            
-            if let user = User.createFromJSON(jsonData) {
-                DispatchQueue.main.async {
-                    let searchRepositoryViewController =
-                        SearchRepositoryViewController(user: user)
-                    self.navigationController?.pushViewController(
-                        searchRepositoryViewController,
-                        animated: true
-                    )
-                }
-            }
-        }
+        authorizeUser(username: username, password: password)
     }
             
     // MARK: - Setup UI
@@ -173,6 +153,33 @@ class LoginViewController: UIViewController {
         super.touchesBegan(touches, with: event)
         view.endEditing(true)
     }
+    
+    // MARK: - Private methods
+    private func authorizeUser(username: String, password: String) {
+        
+        UserAuthorizationRequest.start(username: username, password: password) {
+            [weak self] (statusCode, jsonData) in
+            
+            guard let `self` = self else { return }
+            
+            guard statusCode == 200 else {
+                print("Error authorization")
+                return
+            }
+            
+            self.savePassword(username: username, password: password)
+            
+            guard let user = User.createFromJSON(jsonData) else { return }
+            
+            DispatchQueue.main.async {
+                let searchRepositoryViewController =
+                    SearchRepositoryViewController(user: user)
+                self.navigationController?.pushViewController(
+                    searchRepositoryViewController, animated: true
+                )
+            }
+        }
+    }
 }
 
 // MARK: - TextFieldDelegate
@@ -189,10 +196,10 @@ extension LoginViewController: UITextFieldDelegate {
     }
 }
 
-// MARK: - Local authentication
+// MARK: - TouchID/FaceID authentication
 extension LoginViewController {
     
-    func authenticateUser() {
+    private func authenticateUser(username: String, password: String) {
         
         guard #available(iOS 8.0, *, *) else {
             print("Версия iOS не поддерживает TouchID")
@@ -214,7 +221,7 @@ extension LoginViewController {
             ) { [unowned self] success, evaluateError in
                 if success {
                     // Пользователь успешно прошел аутентификацию
-                    startMainApplicationFlow()
+                    authorizeUser(username: username, password: password)
                 } else {
                     // Пользователь не прошел аутентификацию
                     if let error = evaluateError {
@@ -228,20 +235,136 @@ extension LoginViewController {
                 print(error.localizedDescription)
             }
         }
-        
     }
     
-    func startMainApplicationFlow() {
-        print("Success")
-        print("Main application flow started")
-    }
-    
-    func setupAuthenticationContext(context: LAContext) {
+    private func setupAuthenticationContext(context: LAContext) {
         context.localizedReason = "Use for fast and safe authentication in your app"
         context.localizedCancelTitle = "Cancel"
         context.localizedFallbackTitle = "Enter password"
         
         context.touchIDAuthenticationAllowableReuseDuration = 600
     }
+}
 
+// MARK: - Working with keychain
+extension LoginViewController {
+    
+    /// Проверка наличия сохранённых паролей в keychain
+    private func checkingKeychainData() {
+        guard let passwordItems = readAllItems(service: AppDelegate.appServiceName),
+              let username = passwordItems.keys.first,
+              let password = passwordItems[username]
+        else {
+            print("No keychain data")
+            return
+        }
+        authenticateUser(username: username, password: password)
+    }
+    
+    /// Сохранение пароля
+    private func savePassword(username: String, password: String) {
+        
+        let result = savePasswordToKeychain(password: password,
+                                            service: AppDelegate.appServiceName,
+                                            account: username)
+        result ? print("Password saved") : print("Password saving error")
+    }
+    
+    private func keychainQuery(service: String,
+                               account: String? = nil) -> [String : AnyObject] {
+        
+        var query = [String : AnyObject]()
+        query[kSecClass as String] = kSecClassGenericPassword
+        query[kSecAttrAccessible as String] = kSecAttrAccessibleWhenUnlocked
+        query[kSecAttrService as String] = service as AnyObject
+        
+        if let account = account {
+            query[kSecAttrAccount as String] = account as AnyObject
+        }
+        
+        return query
+    }
+
+    private func readPasswordFromKeychain(service: String,
+                                          account: String?) -> String? {
+        
+        var query = keychainQuery(service: service, account: account)
+        query[kSecMatchLimit as String] = kSecMatchLimitOne
+        query[kSecReturnData as String] = kCFBooleanTrue
+        query[kSecReturnAttributes as String] = kCFBooleanTrue
+        
+        var queryResult: AnyObject?
+        let status = SecItemCopyMatching(query as CFDictionary,
+                                         UnsafeMutablePointer(&queryResult))
+        
+        if status != noErr {
+            return nil
+        }
+        
+        guard let item = queryResult as? [String : AnyObject],
+              let passwordData = item[kSecValueData as String] as? Data,
+              let password = String(data: passwordData, encoding: .utf8)
+        else {
+            return nil
+        }
+        return password
+    }
+    
+    private func savePasswordToKeychain(password: String,
+                                        service: String,
+                                        account: String?) -> Bool {
+        
+        let passwordData = password.data(using: .utf8)
+        
+        if readPasswordFromKeychain(service: service, account: account) != nil {
+            var attributesToUpdate = [String : AnyObject]()
+            attributesToUpdate[kSecValueData as String] = passwordData as AnyObject
+            
+            let query = keychainQuery(service: service, account: account)
+            let status = SecItemUpdate(query as CFDictionary,
+                                       attributesToUpdate as CFDictionary)
+            return status == noErr
+        }
+        
+        var item = keychainQuery(service: service, account: account)
+        item[kSecValueData as String] = passwordData as AnyObject
+        let status = SecItemAdd(item as CFDictionary, nil)
+        
+        return status == noErr
+    }
+    
+    private func readAllItems(service: String) -> [String : String]? {
+        var query = keychainQuery(service: service)
+        query[kSecMatchLimit as String] = kSecMatchLimitAll
+        query[kSecReturnData as String] = kCFBooleanTrue
+        query[kSecReturnAttributes as String] = kCFBooleanTrue
+        
+        var queryResult: AnyObject?
+        let status = SecItemCopyMatching(query as CFDictionary, UnsafeMutablePointer(&queryResult))
+        
+        if status != noErr {
+            return nil
+        }
+        
+        guard let items = queryResult as? [[String : AnyObject]] else {
+            return nil
+        }
+        var passwordItems = [String : String]()
+        
+        for (index, item) in items.enumerated() {
+            guard let passwordData = item[kSecValueData as String] as? Data,
+                let password = String(data: passwordData, encoding: .utf8) else {
+                    continue
+            }
+            
+            if let account = item[kSecAttrAccount as String] as? String {
+                passwordItems[account] = password
+                continue
+            }
+            
+            let account = "Empty account \(index)"
+            passwordItems[account] = password
+        }
+        return passwordItems
+    }
 }

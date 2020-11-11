@@ -6,8 +6,6 @@
 //  Copyright © 2020 Evgeny. All rights reserved.
 //
 
-import Foundation
-
 struct Repository: Decodable {
     
     var name: String
