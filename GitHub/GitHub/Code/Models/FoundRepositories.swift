@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct FoundRepositories: Codable {
+struct FoundRepositories: Decodable {
     
     var count: Int
     var repositories: [Repository]

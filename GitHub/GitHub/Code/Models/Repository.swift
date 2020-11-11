@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Repository: Codable {
+struct Repository: Decodable {
     
     var name: String
     var description: String?

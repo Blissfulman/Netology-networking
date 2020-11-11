@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -75,7 +75,6 @@
 				9A505E9AF1170C2F175DA9E8 /* Pods-GitHub.debug.xcconfig */,
 				6E75FF4FA2A1ED13E965E8F9 /* Pods-GitHub.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -121,7 +120,6 @@
 		CE3AEFB3253B660A00E10FA6 /* Code */ = {
 			isa = PBXGroup;
 			children = (
-				CEB96C38253387A4000BCAD9 /* AppDelegate.swift */,
 				CE22AB20253CB55B00942279 /* View Controllers */,
 				CE1C7E4D2549E9D200AA4F93 /* Models */,
 				CE22AB1F253CB53000942279 /* Additional */,
@@ -132,6 +130,7 @@
 		CE3AEFB6253B670600E10FA6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CEB96C38253387A4000BCAD9 /* AppDelegate.swift */,
 				CEB96C43253387A7000BCAD9 /* LaunchScreen.storyboard */,
 				CEB96C46253387A7000BCAD9 /* Info.plist */,
 			);
@@ -205,7 +204,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1170;
-				LastUpgradeCheck = 1170;
+				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = Evgeny;
 				TargetAttributes = {
 					CEB96C34253387A4000BCAD9 = {
@@ -363,6 +362,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -423,6 +423,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
