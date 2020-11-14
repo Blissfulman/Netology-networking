@@ -14,6 +14,7 @@ struct KeychainManager {
     
     /// Проверка наличия сохранённых паролей в keychain
     static func getKeychainData() -> (username: String, password: String)? {
+        
         guard let passwordItems = KeychainManager.readAllItems(service: serviceName),
               let username = passwordItems.keys.first,
               let password = passwordItems[username]

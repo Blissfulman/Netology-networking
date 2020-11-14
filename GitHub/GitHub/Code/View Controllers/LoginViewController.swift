@@ -8,7 +8,6 @@
 
 import UIKit
 import Kingfisher
-import LocalAuthentication
 
 class LoginViewController: UIViewController {
 
@@ -70,9 +69,19 @@ class LoginViewController: UIViewController {
                               action: #selector(loginButtonPressed),
                               for: .touchUpInside)
         
-        if let keychainData = KeychainManager.getKeychainData() {
-            authorizeUser(username: keychainData.username,
-                          password: keychainData.password)
+        guard let keychainData = KeychainManager.getKeychainData() else { return }
+        
+        let authenticationManager = AuthenticationManager()
+        
+        authenticationManager.authenticateUser(
+            username: keychainData.username,
+            password: keychainData.password
+        ) { [weak self] in
+            
+            guard let `self` = self else { return }
+            
+            self.authorizeUser(username: keychainData.username,
+                               password: keychainData.password)
         }
     }
     
@@ -198,55 +207,5 @@ extension LoginViewController: UITextFieldDelegate {
             loginButtonPressed()
         }
         return true
-    }
-}
-
-// MARK: - TouchID/FaceID authentication
-extension LoginViewController {
-    
-    private func authenticateUser(username: String, password: String) {
-        
-        guard #available(iOS 8.0, *, *) else {
-            print("Версия iOS не поддерживает TouchID")
-            return
-        }
-        
-        let authenticationContext = LAContext()
-        setupAuthenticationContext(context: authenticationContext)
-        
-        let reason = "Fast and safe authentication in your app"
-        var authError: NSError?
-        
-        if authenticationContext.canEvaluatePolicy(
-            .deviceOwnerAuthenticationWithBiometrics, error: &authError
-        ) {
-            authenticationContext.evaluatePolicy(
-                .deviceOwnerAuthenticationWithBiometrics,
-                localizedReason: reason
-            ) { [unowned self] success, evaluateError in
-                if success {
-                    // Пользователь успешно прошел аутентификацию
-                    authorizeUser(username: username, password: password)
-                } else {
-                    // Пользователь не прошел аутентификацию
-                    if let error = evaluateError {
-                        print(error.localizedDescription)
-                    }
-                }
-            }
-        } else {
-            // Не удалось выполнить проверку на использование биометрических данных или пароля для аутентификации
-            if let error = authError {
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
-    private func setupAuthenticationContext(context: LAContext) {
-        context.localizedReason = "Use for fast and safe authentication in your app"
-        context.localizedCancelTitle = "Cancel"
-        context.localizedFallbackTitle = "Enter password"
-        
-        context.touchIDAuthenticationAllowableReuseDuration = 600
     }
 }
