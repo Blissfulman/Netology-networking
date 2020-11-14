@@ -189,14 +189,11 @@ class SearchRepositoryViewController: UIViewController {
         let language = languageTextField.text ?? ""
         let order = sortingSegmentedControl.selectedSegmentIndex == 0
             ? "asc" : "desc"
-        
-        let searchRepositoriesRequest = SearchRepositoriesRequest()
-        
-        searchRepositoriesRequest.start(
-            name: name,
-            language: language,
-            order: order
-        ) { [weak self] (jsonData) in
+                
+        RequestManager.searchRepositories(name: name,
+                                          language: language,
+                                          order: order) {
+            [weak self] (jsonData) in
             
             guard let `self` = self else { return }
             

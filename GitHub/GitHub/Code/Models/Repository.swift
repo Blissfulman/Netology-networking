@@ -20,7 +20,7 @@ struct Repository: Decodable {
         case owner
     }
     
-    struct Owner: Codable {
+    struct Owner: Decodable {
         var login: String
         var avatarUrl: String
         
