@@ -86,6 +86,8 @@ class SearchRepositoryViewController: UIViewController {
         return button
     }()
     
+    private let requestManager = RequestManager.shared
+    
     // MARK: - Initializers
     convenience init(user: User) {
         self.init()
@@ -190,15 +192,12 @@ class SearchRepositoryViewController: UIViewController {
         let order = sortingSegmentedControl.selectedSegmentIndex == 0
             ? "asc" : "desc"
                 
-        RequestManager.searchRepositories(name: name,
+        requestManager.searchRepositories(name: name,
                                           language: language,
                                           order: order) {
-            [weak self] (jsonData) in
+            [weak self] (foundRepositories) in
             
             guard let `self` = self else { return }
-            
-            guard let foundRepositories =
-                FoundRepositories.createFromJSON(jsonData) else { return }
             
             DispatchQueue.main.async {
                 let foundRepositoriesTVC =

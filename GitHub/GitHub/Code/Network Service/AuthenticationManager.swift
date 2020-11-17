@@ -10,6 +10,10 @@ import LocalAuthentication
 
 class AuthenticationManager {
     
+    static let shared = AuthenticationManager()
+        
+    private init() {}
+    
     func authenticateUser(username: String,
                           password: String,
                           completion: @escaping () -> Void) {

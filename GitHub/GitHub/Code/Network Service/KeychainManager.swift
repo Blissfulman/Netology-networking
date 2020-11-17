@@ -8,14 +8,18 @@
 
 import Foundation
 
-struct KeychainManager {
+class KeychainManager {
     
-    static let serviceName = "GitHubApp"
+    static let shared = KeychainManager()
+    
+    private let serviceName = "GitHubApp"
+    
+    private init() {}
     
     /// Проверка наличия сохранённых паролей в keychain
-    static func getKeychainData() -> (username: String, password: String)? {
+    func getKeychainData() -> (username: String, password: String)? {
         
-        guard let passwordItems = KeychainManager.readAllItems(service: serviceName),
+        guard let passwordItems = readAllItems(service: serviceName),
               let username = passwordItems.keys.first,
               let password = passwordItems[username]
         else {
@@ -27,7 +31,29 @@ struct KeychainManager {
         return (username: username, password: password)
     }
     
-    static func keychainQuery(service: String,
+    /// Сохранение пароля
+    func savePassword(account: String, password: String) -> Bool {
+        
+        let passwordData = password.data(using: .utf8)
+        
+        if readPassword(service: serviceName, account: account) != nil {
+            var attributesToUpdate = [String : AnyObject]()
+            attributesToUpdate[kSecValueData as String] = passwordData as AnyObject
+            
+            let query = keychainQuery(service: serviceName, account: account)
+            let status = SecItemUpdate(query as CFDictionary,
+                                       attributesToUpdate as CFDictionary)
+            return status == noErr
+        }
+        
+        var item = keychainQuery(service: serviceName, account: account)
+        item[kSecValueData as String] = passwordData as AnyObject
+        let status = SecItemAdd(item as CFDictionary, nil)
+        
+        return status == noErr
+    }
+    
+    private func keychainQuery(service: String,
                               account: String? = nil) -> [String : AnyObject] {
         
         var query = [String : AnyObject]()
@@ -41,34 +67,8 @@ struct KeychainManager {
         
         return query
     }
-    
-    /// Сохранение пароля
-    static func savePassword(account: String, password: String) {
-        
-        let passwordData = password.data(using: .utf8)
-        
-        if readPassword(service: serviceName, account: account) != nil {
-            var attributesToUpdate = [String : AnyObject]()
-            attributesToUpdate[kSecValueData as String] = passwordData as AnyObject
-            
-            let query = keychainQuery(service: serviceName, account: account)
-            let status = SecItemUpdate(query as CFDictionary,
-                                       attributesToUpdate as CFDictionary)
-            status == noErr
-                ? print("Password saved")
-                : print("Password saving error")
-        }
-        
-        var item = keychainQuery(service: serviceName, account: account)
-        item[kSecValueData as String] = passwordData as AnyObject
-        let status = SecItemAdd(item as CFDictionary, nil)
-        
-        status == noErr
-            ? print("Password saved")
-            : print("Password saving error")
-    }
 
-    static func readPassword(service: String,
+    private func readPassword(service: String,
                              account: String?) -> String? {
         
         var query = keychainQuery(service: service, account: account)
@@ -93,7 +93,7 @@ struct KeychainManager {
         return password
     }
     
-    static func readAllItems(service: String) -> [String : String]? {
+    private func readAllItems(service: String) -> [String : String]? {
         var query = keychainQuery(service: service)
         query[kSecMatchLimit as String] = kSecMatchLimitAll
         query[kSecReturnData as String] = kCFBooleanTrue

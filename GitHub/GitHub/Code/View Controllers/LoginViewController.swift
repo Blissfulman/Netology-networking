@@ -57,7 +57,9 @@ class LoginViewController: UIViewController {
         return button
     }()
     
-    private let logoURL = "https://github.githubassets.com/images/modules/logos_page/GitHub-Logo.png"
+    private let requestManager = RequestManager.shared
+    private let authenticationManager = AuthenticationManager.shared
+    private let keychainManager = KeychainManager.shared
     
     // MARK: - Lifecycle methods
     override func viewDidLoad() {
@@ -69,9 +71,7 @@ class LoginViewController: UIViewController {
                               action: #selector(loginButtonPressed),
                               for: .touchUpInside)
         
-        guard let keychainData = KeychainManager.getKeychainData() else { return }
-        
-        let authenticationManager = AuthenticationManager()
+        guard let keychainData = keychainManager.getKeychainData() else { return }
         
         authenticationManager.authenticateUser(
             username: keychainData.username,
@@ -97,12 +97,13 @@ class LoginViewController: UIViewController {
         
         view.endEditing(true)
         
-        let username = usernameTextField.text ?? ""
-        let password = passwordTextField.text ?? ""
+        guard let username = usernameTextField.text, username != "",
+              let password = passwordTextField.text, password != ""
+        else { return }
         
         authorizeUser(username: username, password: password)
     }
-            
+    
     // MARK: - Setup UI
     private func setupUI() {
         view.backgroundColor = .white
@@ -111,7 +112,7 @@ class LoginViewController: UIViewController {
         view.addSubview(passwordTextField)
         view.addSubview(loginButton)
         
-        let url = URL(string: logoURL)
+        let url = URL(string: RequestManager.urlGitHubLogo)
         logoImageView.kf.indicatorType = .activity
         logoImageView.kf.setImage(with: url)
     }
@@ -170,20 +171,13 @@ class LoginViewController: UIViewController {
     // MARK: - Private methods
     private func authorizeUser(username: String, password: String) {
         
-        RequestManager.userAuthorization(username: username,
+        requestManager.userAuthorization(username: username,
                                          password: password) {
-            [weak self] (statusCode, jsonData) in
+            [weak self] (user) in
             
             guard let `self` = self else { return }
             
-            guard statusCode == 200 else {
-                print("Error authorization")
-                return
-            }
-            
-            KeychainManager.savePassword(account: username, password: password)
-            
-            guard let user = User.createFromJSON(jsonData) else { return }
+            guard let user = user else { return }
             
             DispatchQueue.main.async {
                 let searchRepositoryViewController =

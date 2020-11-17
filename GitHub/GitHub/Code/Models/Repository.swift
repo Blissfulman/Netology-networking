@@ -8,10 +8,10 @@
 
 struct Repository: Decodable {
     
-    var name: String
-    var description: String?
-    var url: String
-    var owner: Owner
+    let name: String
+    let description: String?
+    let url: String
+    let owner: Owner
     
     private enum CodingKeys: String, CodingKey {
         case name
@@ -19,14 +19,14 @@ struct Repository: Decodable {
         case url = "html_url"
         case owner
     }
+}
+
+struct Owner: Decodable {
+    let login: String
+    let avatarUrl: String
     
-    struct Owner: Decodable {
-        var login: String
-        var avatarUrl: String
-        
-        private enum CodingKeys: String, CodingKey {
-            case login
-            case avatarUrl = "avatar_url"
-        }
+    private enum CodingKeys: String, CodingKey {
+        case login
+        case avatarUrl = "avatar_url"
     }
 }

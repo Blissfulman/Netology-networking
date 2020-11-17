@@ -11,7 +11,7 @@ import UIKit
 class FoundRepositoriesTableViewController: UITableViewController {
     
     // MARK: - Properties
-    private var foundRepositories = FoundRepositories()
+    private var foundRepositories: FoundRepositories!
     
     // MARK: - Initializers
     convenience init(_ foundRepositories: FoundRepositories) {

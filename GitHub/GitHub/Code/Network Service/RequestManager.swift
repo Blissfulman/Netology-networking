@@ -8,13 +8,19 @@
 
 import Foundation
 
-struct RequestManager {
+class RequestManager {
+    
+    static let shared = RequestManager()
+    
+    static let urlGitHubLogo = "https://github.githubassets.com/images/modules/logos_page/GitHub-Logo.png"
+    
+    private init() {}
     
     /// Запрос авторизации пользователя.
-    static func userAuthorization(username: String,
-                                  password: String,
-                                  completion: @escaping (Int, Data) -> Void) {
-        print(username, password)
+    func userAuthorization(username: String,
+                           password: String,
+                           completion: @escaping (User?) -> Void) {
+
         let stringURL = "https://api.github.com/user"
                 
         let loginString = String(format: "%@:%@", username, password)
@@ -28,11 +34,8 @@ struct RequestManager {
         request.setValue("Basic \(base64LoginString)",
                          forHTTPHeaderField: "Authorization")
         
-        URLSession.shared.dataTask(with: request) {
-            (data, response, error) in
-            
-            var statusCode = 0
-            
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+                        
             if let error = error {
                 print(error.localizedDescription)
                 return
@@ -40,7 +43,12 @@ struct RequestManager {
             
             if let httpResponse = response as? HTTPURLResponse {
                 print("http status code: \(httpResponse.statusCode)")
-                statusCode = httpResponse.statusCode
+                
+                if httpResponse.statusCode != 200 {
+                    print("Error authorization")
+                    completion(nil)
+                    return
+                }
             }
             
             guard let jsonData = data else {
@@ -48,15 +56,22 @@ struct RequestManager {
                 return
             }
             
-            completion(statusCode, jsonData)
+            KeychainManager.shared.savePassword(account: username,
+                                                password: password)
+                ? print("Password saved")
+                : print("Password saving error")
+            
+            guard let user = User.createFromJSON(jsonData) else { return }
+            
+            completion(user)
         }.resume()
     }
     
     /// Поиск репозиториев с переданными параметрами.
-    static func searchRepositories(name repositoryName: String,
-                                   language: String,
-                                   order: String,
-                                   completion: @escaping (Data) -> Void) {
+    func searchRepositories(name repositoryName: String,
+                            language: String,
+                            order: String,
+                            completion: @escaping (FoundRepositories) -> Void) {
         
         let defaultHeaders = ["Content-Type" : "application/json",
                               "Accept" : "application/vnd.github.v3+json"]
@@ -85,13 +100,16 @@ struct RequestManager {
                 return
             }
             
-            completion(jsonData)
+            guard let foundRepositories =
+                FoundRepositories.createFromJSON(jsonData) else { return }
+            
+            completion(foundRepositories)
         }.resume()
     }
     
-    static func getURL(repositoryName: String,
-                       language: String,
-                       order: String) -> URL? {
+    private func getURL(repositoryName: String,
+                language: String,
+                order: String) -> URL? {
         
         let scheme = "https"
         let host = "api.github.com"
