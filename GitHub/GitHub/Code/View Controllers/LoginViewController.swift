@@ -112,7 +112,7 @@ class LoginViewController: UIViewController {
         view.addSubview(passwordTextField)
         view.addSubview(loginButton)
         
-        let url = URL(string: RequestManager.urlGitHubLogo)
+        let url = URL(string: RequestManager.urlLogo)
         logoImageView.kf.indicatorType = .activity
         logoImageView.kf.setImage(with: url)
     }

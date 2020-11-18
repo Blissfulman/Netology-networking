@@ -23,6 +23,10 @@ class FoundRepositoriesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.register(
+            FoundRepositoryTableViewCell.self,
+            forCellReuseIdentifier: FoundRepositoryTableViewCell.identifier
+        )
         setupUI()
     }
     
@@ -58,7 +62,9 @@ extension FoundRepositoriesTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = FoundRepositoryTableViewCell()
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: FoundRepositoryTableViewCell.identifier
+        ) as! FoundRepositoryTableViewCell
         cell.configure(repository: foundRepositories.repositories[indexPath.row])
         return cell
     }

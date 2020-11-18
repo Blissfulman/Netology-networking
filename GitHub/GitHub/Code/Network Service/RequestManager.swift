@@ -12,7 +12,7 @@ class RequestManager {
     
     static let shared = RequestManager()
     
-    static let urlGitHubLogo = "https://github.githubassets.com/images/modules/logos_page/GitHub-Logo.png"
+    static let urlLogo = "https://github.githubassets.com/images/modules/logos_page/GitHub-Logo.png"
     
     private init() {}
     
@@ -76,9 +76,9 @@ class RequestManager {
         let defaultHeaders = ["Content-Type" : "application/json",
                               "Accept" : "application/vnd.github.v3+json"]
         
-        guard let url = getURL(repositoryName: repositoryName,
-                               language: language,
-                               order: order) else { return }
+        guard let url = getSearchURL(repositoryName: repositoryName,
+                                     language: language,
+                                     order: order) else { return }
         
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = defaultHeaders
@@ -107,9 +107,9 @@ class RequestManager {
         }.resume()
     }
     
-    private func getURL(repositoryName: String,
-                language: String,
-                order: String) -> URL? {
+    private func getSearchURL(repositoryName: String,
+                              language: String,
+                              order: String) -> URL? {
         
         let scheme = "https"
         let host = "api.github.com"
