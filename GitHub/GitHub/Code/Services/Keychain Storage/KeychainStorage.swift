@@ -1,5 +1,5 @@
 //
-//  KeychainManager.swift
+//  KeychainStorage.swift
 //  GitHub
 //
 //  Created by User on 14.11.2020.
@@ -8,16 +8,17 @@
 
 import Foundation
 
-class KeychainManager {
-    
-    static let shared = KeychainManager()
-    
+protocol KeychainManagerProtocol {
+    func getData() -> (username: String, password: String)?
+    func savePassword(account: String, password: String) -> Bool
+}
+
+final class KeychainStorage: KeychainManagerProtocol {
+        
     private let serviceName = "GitHubApp"
-    
-    private init() {}
-    
+        
     /// Проверка наличия сохранённых паролей в keychain
-    func getKeychainData() -> (username: String, password: String)? {
+    func getData() -> (username: String, password: String)? {
         
         guard let passwordItems = readAllItems(service: serviceName),
               let username = passwordItems.keys.first,
@@ -38,7 +39,8 @@ class KeychainManager {
         
         if readPassword(service: serviceName, account: account) != nil {
             var attributesToUpdate = [String : AnyObject]()
-            attributesToUpdate[kSecValueData as String] = passwordData as AnyObject
+            attributesToUpdate[kSecValueData as String] =
+                passwordData as AnyObject
             
             let query = keychainQuery(service: serviceName, account: account)
             let status = SecItemUpdate(query as CFDictionary,
@@ -54,7 +56,7 @@ class KeychainManager {
     }
     
     private func keychainQuery(service: String,
-                              account: String? = nil) -> [String : AnyObject] {
+                               account: String? = nil) -> [String : AnyObject] {
         
         var query = [String : AnyObject]()
         query[kSecClass as String] = kSecClassGenericPassword
@@ -69,7 +71,7 @@ class KeychainManager {
     }
 
     private func readPassword(service: String,
-                             account: String?) -> String? {
+                              account: String?) -> String? {
         
         var query = keychainQuery(service: service, account: account)
         query[kSecMatchLimit as String] = kSecMatchLimitOne
@@ -77,8 +79,7 @@ class KeychainManager {
         query[kSecReturnAttributes as String] = kCFBooleanTrue
         
         var queryResult: AnyObject?
-        let status = SecItemCopyMatching(query as CFDictionary,
-                                         UnsafeMutablePointer(&queryResult))
+        let status = SecItemCopyMatching(query as CFDictionary, &queryResult)
         
         if status != noErr {
             return nil
@@ -100,7 +101,7 @@ class KeychainManager {
         query[kSecReturnAttributes as String] = kCFBooleanTrue
         
         var queryResult: AnyObject?
-        let status = SecItemCopyMatching(query as CFDictionary, UnsafeMutablePointer(&queryResult))
+        let status = SecItemCopyMatching(query as CFDictionary, &queryResult)
         
         if status != noErr {
             return nil

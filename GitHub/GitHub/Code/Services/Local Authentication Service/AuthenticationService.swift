@@ -1,5 +1,5 @@
 //
-//  AuthenticationManager.swift
+//  AuthenticationService.swift
 //  GitHub
 //
 //  Created by User on 14.11.2020.
@@ -8,15 +8,13 @@
 
 import LocalAuthentication
 
-class AuthenticationManager {
+protocol AuthenticationServiceProtocol {
+    func authenticateUser(completion: @escaping () -> Void)
+}
+
+final class AuthenticationService: AuthenticationServiceProtocol {
     
-    static let shared = AuthenticationManager()
-        
-    private init() {}
-    
-    func authenticateUser(username: String,
-                          password: String,
-                          completion: @escaping () -> Void) {
+    func authenticateUser(completion: @escaping () -> Void) {
         
         guard #available(iOS 8.0, *, *) else {
             print("Версия iOS не поддерживает TouchID")

@@ -9,14 +9,15 @@
 /* Begin PBXBuildFile section */
 		CE1C7E4F2549E9F000AA4F93 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C7E4E2549E9F000AA4F93 /* User.swift */; };
 		CE1C7E512549EA6B00AA4F93 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C7E502549EA6B00AA4F93 /* Repository.swift */; };
+		CE21A64A2569865400E4EC4B /* URLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE21A6492569865400E4EC4B /* URLs.swift */; };
 		CE22AB1C253CA52100942279 /* FoundRepositories.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE22AB1B253CA52100942279 /* FoundRepositories.swift */; };
 		CE22AB1E253CB51800942279 /* FoundRepositoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE22AB1D253CB51800942279 /* FoundRepositoriesTableViewController.swift */; };
 		CE2412DC2540ABCF0059B235 /* FoundRepositoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2412DB2540ABCF0059B235 /* FoundRepositoryTableViewCell.swift */; };
 		CE24448E25474311009F0D00 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE24448D25474311009F0D00 /* WebViewController.swift */; };
-		CE25093B255FA65200F0C08B /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE25093A255FA65200F0C08B /* KeychainManager.swift */; };
+		CE25093B255FA65200F0C08B /* KeychainStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE25093A255FA65200F0C08B /* KeychainStorage.swift */; };
 		CE3AEFB2253B162900E10FA6 /* SearchRepositoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3AEFB1253B162900E10FA6 /* SearchRepositoryViewController.swift */; };
-		CE8AC2A9255FBEC500A4CE16 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8AC2A8255FBEC500A4CE16 /* RequestManager.swift */; };
-		CE8AC2AB255FDA1A00A4CE16 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8AC2AA255FDA1A00A4CE16 /* AuthenticationManager.swift */; };
+		CE8AC2A9255FBEC500A4CE16 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8AC2A8255FBEC500A4CE16 /* NetworkService.swift */; };
+		CE8AC2AB255FDA1A00A4CE16 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8AC2AA255FDA1A00A4CE16 /* AuthenticationService.swift */; };
 		CEB96C39253387A4000BCAD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB96C38253387A4000BCAD9 /* AppDelegate.swift */; };
 		CEB96C3D253387A4000BCAD9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB96C3C253387A4000BCAD9 /* LoginViewController.swift */; };
 		CEB96C42253387A7000BCAD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEB96C41253387A7000BCAD9 /* Assets.xcassets */; };
@@ -42,14 +43,15 @@
 		9A505E9AF1170C2F175DA9E8 /* Pods-GitHub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GitHub.debug.xcconfig"; path = "Target Support Files/Pods-GitHub/Pods-GitHub.debug.xcconfig"; sourceTree = "<group>"; };
 		CE1C7E4E2549E9F000AA4F93 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CE1C7E502549EA6B00AA4F93 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		CE21A6492569865400E4EC4B /* URLs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLs.swift; sourceTree = "<group>"; };
 		CE22AB1B253CA52100942279 /* FoundRepositories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundRepositories.swift; sourceTree = "<group>"; };
 		CE22AB1D253CB51800942279 /* FoundRepositoriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundRepositoriesTableViewController.swift; sourceTree = "<group>"; };
-		CE2412DB2540ABCF0059B235 /* FoundRepositoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FoundRepositoryTableViewCell.swift; path = GitHub/Code/Additional/FoundRepositoryTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		CE2412DB2540ABCF0059B235 /* FoundRepositoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FoundRepositoryTableViewCell.swift; path = GitHub/Code/Cells/FoundRepositoryTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		CE24448D25474311009F0D00 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
-		CE25093A255FA65200F0C08B /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		CE25093A255FA65200F0C08B /* KeychainStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStorage.swift; sourceTree = "<group>"; };
 		CE3AEFB1253B162900E10FA6 /* SearchRepositoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRepositoryViewController.swift; sourceTree = "<group>"; };
-		CE8AC2A8255FBEC500A4CE16 /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
-		CE8AC2AA255FDA1A00A4CE16 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
+		CE8AC2A8255FBEC500A4CE16 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		CE8AC2AA255FDA1A00A4CE16 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
 		CEB96C35253387A4000BCAD9 /* GitHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEB96C38253387A4000BCAD9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CEB96C3C253387A4000BCAD9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -90,12 +92,37 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		CE22AB1F253CB53000942279 /* Additional */ = {
+		CE21A6482569862600E4EC4B /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				CE21A6492569865400E4EC4B /* URLs.swift */,
+				CE8AC2A8255FBEC500A4CE16 /* NetworkService.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		CE21A64B2569878300E4EC4B /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				CE2412DB2540ABCF0059B235 /* FoundRepositoryTableViewCell.swift */,
 			);
-			path = Additional;
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		CE21A64C2569882700E4EC4B /* Local Authentication Service */ = {
+			isa = PBXGroup;
+			children = (
+				CE8AC2AA255FDA1A00A4CE16 /* AuthenticationService.swift */,
+			);
+			path = "Local Authentication Service";
+			sourceTree = "<group>";
+		};
+		CE21A64D2569887E00E4EC4B /* Keychain Storage */ = {
+			isa = PBXGroup;
+			children = (
+				CE25093A255FA65200F0C08B /* KeychainStorage.swift */,
+			);
+			path = "Keychain Storage";
 			sourceTree = "<group>";
 		};
 		CE22AB20253CB55B00942279 /* View Controllers */ = {
@@ -109,14 +136,14 @@
 			path = "View Controllers";
 			sourceTree = "<group>";
 		};
-		CE250939255FA60500F0C08B /* Network Service */ = {
+		CE250939255FA60500F0C08B /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				CE8AC2A8255FBEC500A4CE16 /* RequestManager.swift */,
-				CE8AC2AA255FDA1A00A4CE16 /* AuthenticationManager.swift */,
-				CE25093A255FA65200F0C08B /* KeychainManager.swift */,
+				CE21A6482569862600E4EC4B /* Networking */,
+				CE21A64C2569882700E4EC4B /* Local Authentication Service */,
+				CE21A64D2569887E00E4EC4B /* Keychain Storage */,
 			);
-			path = "Network Service";
+			path = Services;
 			sourceTree = "<group>";
 		};
 		CE39068C25339B7500DD03CE /* Frameworks */ = {
@@ -132,8 +159,8 @@
 			children = (
 				CE22AB20253CB55B00942279 /* View Controllers */,
 				CE1C7E4D2549E9D200AA4F93 /* Models */,
-				CE250939255FA60500F0C08B /* Network Service */,
-				CE22AB1F253CB53000942279 /* Additional */,
+				CE250939255FA60500F0C08B /* Services */,
+				CE21A64B2569878300E4EC4B /* Cells */,
 			);
 			path = Code;
 			sourceTree = "<group>";
@@ -320,14 +347,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE3AEFB2253B162900E10FA6 /* SearchRepositoryViewController.swift in Sources */,
+				CE21A64A2569865400E4EC4B /* URLs.swift in Sources */,
 				CEB96C3D253387A4000BCAD9 /* LoginViewController.swift in Sources */,
-				CE8AC2A9255FBEC500A4CE16 /* RequestManager.swift in Sources */,
+				CE8AC2A9255FBEC500A4CE16 /* NetworkService.swift in Sources */,
 				CE22AB1C253CA52100942279 /* FoundRepositories.swift in Sources */,
 				CEB96C39253387A4000BCAD9 /* AppDelegate.swift in Sources */,
 				CE1C7E512549EA6B00AA4F93 /* Repository.swift in Sources */,
 				CE22AB1E253CB51800942279 /* FoundRepositoriesTableViewController.swift in Sources */,
-				CE25093B255FA65200F0C08B /* KeychainManager.swift in Sources */,
-				CE8AC2AB255FDA1A00A4CE16 /* AuthenticationManager.swift in Sources */,
+				CE25093B255FA65200F0C08B /* KeychainStorage.swift in Sources */,
+				CE8AC2AB255FDA1A00A4CE16 /* AuthenticationService.swift in Sources */,
 				CE2412DC2540ABCF0059B235 /* FoundRepositoryTableViewCell.swift in Sources */,
 				CE1C7E4F2549E9F000AA4F93 /* User.swift in Sources */,
 				CE24448E25474311009F0D00 /* WebViewController.swift in Sources */,

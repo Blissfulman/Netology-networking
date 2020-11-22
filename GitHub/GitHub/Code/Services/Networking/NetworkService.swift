@@ -8,70 +8,75 @@
 
 import Foundation
 
-class RequestManager {
-    
-    static let shared = RequestManager()
-    
-    static let urlLogo = "https://github.githubassets.com/images/modules/logos_page/GitHub-Logo.png"
-    
-    private init() {}
-    
-    /// Запрос авторизации пользователя.
-    func userAuthorization(username: String,
-                           password: String,
-                           completion: @escaping (User?) -> Void) {
+typealias LoginResult = (User?) -> Void
+typealias SearchResult = (FoundRepositories) -> Void
 
-        let stringURL = "https://api.github.com/user"
+protocol NetworkServiceProtocol {
+    func userLogin(username: String,
+                   password: String,
+                   completion: @escaping LoginResult)
+    
+    func search(name repositoryName: String,
+                language: String,
+                order: String,
+                completion: @escaping SearchResult)
+}
+
+final class NetworkService: NetworkServiceProtocol {
+    
+    private let session: URLSession
+    
+    init(session: URLSession = .shared) {
+        self.session = session
+    }
+    
+    /// Авторизация пользователя.
+    func userLogin(username: String,
+                   password: String,
+                   completion: @escaping LoginResult) {
                 
-        let loginString = String(format: "%@:%@", username, password)
-        guard let dataLoginString = loginString.data(using: .utf8) else { return }
-        let base64LoginString = dataLoginString.base64EncodedString()
+        let base64LoginString = password.data(using: .utf8)?
+            .base64EncodedString() ?? ""
         
-        guard let url = URL(string: stringURL) else { return }
+        guard let url = URL(string: URLs.login) else { return }
         
         var request = URLRequest(url: url)
 
         request.setValue("Basic \(base64LoginString)",
                          forHTTPHeaderField: "Authorization")
         
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
+        session.dataTask(with: request) { (data, response, error) in
                         
             if let error = error {
                 print(error.localizedDescription)
                 return
-            }
-            
-            if let httpResponse = response as? HTTPURLResponse {
-                print("http status code: \(httpResponse.statusCode)")
+            } else if let data = data,
+                      let response = response as? HTTPURLResponse {
+                print("http status code: \(response.statusCode)")
                 
-                if httpResponse.statusCode != 200 {
+                if response.statusCode != 200 {
                     print("Error authorization")
                     completion(nil)
                     return
                 }
+                
+                KeychainStorage().savePassword(account: username,
+                                               password: password)
+                    ? print("Password saved")
+                    : print("Password saving error")
+                
+                guard let user = User.createFromJSON(data) else { return }
+                
+                completion(user)
             }
-            
-            guard let jsonData = data else {
-                print("No data received")
-                return
-            }
-            
-            KeychainManager.shared.savePassword(account: username,
-                                                password: password)
-                ? print("Password saved")
-                : print("Password saving error")
-            
-            guard let user = User.createFromJSON(jsonData) else { return }
-            
-            completion(user)
         }.resume()
     }
     
     /// Поиск репозиториев с переданными параметрами.
-    func searchRepositories(name repositoryName: String,
-                            language: String,
-                            order: String,
-                            completion: @escaping (FoundRepositories) -> Void) {
+    func search(name repositoryName: String,
+                language: String,
+                order: String,
+                completion: @escaping SearchResult) {
         
         let defaultHeaders = ["Content-Type" : "application/json",
                               "Accept" : "application/vnd.github.v3+json"]
@@ -83,7 +88,7 @@ class RequestManager {
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = defaultHeaders
         
-        URLSession.shared.dataTask(with: request) {
+        session.dataTask(with: request) {
             (data, response, error) in
             
             if let error = error {
