@@ -8,10 +8,10 @@
 
 import UIKit
 
-class FoundRepositoriesTableViewController: UITableViewController {
+final class FoundRepositoriesTableViewController: UITableViewController {
     
     // MARK: - Properties
-    private var foundRepositories = FoundRepositories()
+    private var foundRepositories: FoundRepositories!
     
     // MARK: - Initializers
     convenience init(_ foundRepositories: FoundRepositories) {
@@ -23,14 +23,24 @@ class FoundRepositoriesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.register(
+            FoundRepositoryTableViewCell.self,
+            forCellReuseIdentifier: FoundRepositoryTableViewCell.identifier
+        )
         setupUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        navigationController?.navigationBar.isHidden = false
     }
     
     // MARK: - Setup UI
     private func setupUI() {
         
         let headerView = UIView()
-        headerView.frame = .init(x: 0, y: 0, width: view.frame.width, height: 50)
+        headerView.frame = .init(x: 0, y: 0,
+                                 width: view.frame.width, height: 50)
         tableView.tableHeaderView = headerView
         
         let headerLabel = UILabel()
@@ -41,10 +51,14 @@ class FoundRepositoriesTableViewController: UITableViewController {
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         
         let constraints = [
-            headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
-            headerLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: 16),
-            headerLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 0),
-            headerLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0)
+            headerLabel.leadingAnchor
+                .constraint(equalTo: headerView.leadingAnchor, constant: 16),
+            headerLabel.trailingAnchor
+                .constraint(equalTo: headerView.trailingAnchor, constant: 16),
+            headerLabel.topAnchor
+                .constraint(equalTo: headerView.topAnchor, constant: 0),
+            headerLabel.bottomAnchor
+                .constraint(equalTo: headerView.bottomAnchor, constant: 0)
         ]
         NSLayoutConstraint.activate(constraints)
     }
@@ -58,14 +72,24 @@ extension FoundRepositoriesTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = FoundRepositoryTableViewCell()
-        cell.configure(repository: foundRepositories.repositories[indexPath.row])
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: FoundRepositoryTableViewCell.identifier
+        ) as! FoundRepositoryTableViewCell
+        cell.configure(repository: foundRepositories
+                        .repositories[indexPath.row])
         return cell
     }
     
     // MARK: - TableViewDelegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let webVC = WebViewController(url: foundRepositories.repositories[indexPath.row].url)
+
+        // MARK: Navigation
+        let backItem = UIBarButtonItem()
+        backItem.title = "Found repositories"
+        navigationItem.backBarButtonItem = backItem
+
+        let webVC = WebViewController(url: foundRepositories
+                                        .repositories[indexPath.row].url)
         self.navigationController?.pushViewController(webVC, animated: true)
     }
 }

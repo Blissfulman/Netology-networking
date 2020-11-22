@@ -9,9 +9,11 @@
 import UIKit
 import Kingfisher
 
-class FoundRepositoryTableViewCell: UITableViewCell {
+final class FoundRepositoryTableViewCell: UITableViewCell {
     
     // MARK: - Properties
+    static let identifier = "repositoryCell"
+    
     /// Название репозитория
     private let repositoryNameLabel: UILabel = {
         let label = UILabel()

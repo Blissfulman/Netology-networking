@@ -18,11 +18,11 @@ struct User: Decodable {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         
-        guard let result = try? decoder.decode(User.self,
+        guard let user = try? decoder.decode(User.self,
                                                from: jsonData) else {
             return nil
         }
 
-        return result
+        return user
     }
 }

@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController {
 
     // MARK: - Properties
     /// Изображение логотипа
@@ -52,62 +52,61 @@ class LoginViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Login", for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
+        button.setTitleColor(.systemGray, for: .disabled)
         button.titleLabel?.font = .boldSystemFont(ofSize: 24)
+        button.isEnabled = false
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    private let logoURL = "https://github.githubassets.com/images/modules/logos_page/GitHub-Logo.png"
-    
+    private let networkService: NetworkServiceProtocol = NetworkService()
+        
     // MARK: - Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
                 
         setupUI()
         setupLayout()
-        loginButton.addTarget(self,
-                              action: #selector(loginButtonPressed),
-                              for: .touchUpInside)
+        setupTargets()
+        
+        AuthenticationService().authenticateUser() { [weak self] in
+            
+            guard let `self` = self else { return }
+            
+            guard let keychainData = KeychainStorage().getData() else { return }
+            
+            self.authorizeUser(username: keychainData.username,
+                               password: keychainData.password)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
+        navigationController?.navigationBar.isHidden = true
         usernameTextField.text = nil
         passwordTextField.text = nil
     }
     
     // MARK: - Actions
+    @objc func textFieldsDidChanged() {
+        guard let username = usernameTextField.text else { return }
+        guard let password = passwordTextField.text else { return }
+        
+        loginButton.isEnabled = !username.isEmpty && !password.isEmpty
+    }
+    
     @objc private func loginButtonPressed() {
         
         view.endEditing(true)
         
-        let username = usernameTextField.text ?? ""
-        let password = passwordTextField.text ?? ""
+        guard let username = usernameTextField.text,
+              let password = passwordTextField.text
+        else { return }
         
-        UserAuthorizationRequest.start(username: username, password: password) {
-            [weak self] (statusCode, jsonData) in
-            
-            guard let `self` = self else { return }
-            
-            guard statusCode == 200 else {
-                print("Error authorization")
-                return
-            }
-            
-            if let user = User.createFromJSON(jsonData) {
-                DispatchQueue.main.async {
-                    let searchRepositoryViewController =
-                        SearchRepositoryViewController(user: user)
-                    self.navigationController?.pushViewController(
-                        searchRepositoryViewController,
-                        animated: true
-                    )
-                }
-            }
-        }
+        authorizeUser(username: username, password: password)
     }
-            
+    
     // MARK: - Setup UI
     private func setupUI() {
         view.backgroundColor = .white
@@ -116,7 +115,7 @@ class LoginViewController: UIViewController {
         view.addSubview(passwordTextField)
         view.addSubview(loginButton)
         
-        let url = URL(string: logoURL)
+        let url = URL(string: URLs.logo)
         logoImageView.kf.indicatorType = .activity
         logoImageView.kf.setImage(with: url)
     }
@@ -124,52 +123,81 @@ class LoginViewController: UIViewController {
     // MARK: - Setup layout
     private func setupLayout() {
         let constraints = [
-            logoImageView.topAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100
-            ),
-            logoImageView.centerXAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.centerXAnchor
-            ),
-            logoImageView.widthAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.8
-            ),
-            logoImageView.heightAnchor.constraint(
-                equalTo: logoImageView.widthAnchor, multiplier: 0.5
-            ),
+            logoImageView.topAnchor
+                .constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+                            constant: 100),
+            logoImageView.centerXAnchor
+                .constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            logoImageView.widthAnchor
+                .constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor,
+                            multiplier: 0.8),
+            logoImageView.heightAnchor
+                .constraint(equalTo: logoImageView.widthAnchor,
+                            multiplier: 0.5),
             
-            usernameTextField.topAnchor.constraint(
-                equalTo: logoImageView.bottomAnchor, constant: 100
-            ),
-            usernameTextField.centerXAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.centerXAnchor
-            ),
-            usernameTextField.widthAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.7
-            ),
+            usernameTextField.topAnchor
+                .constraint(equalTo: logoImageView.bottomAnchor, constant: 100),
+            usernameTextField.centerXAnchor
+                .constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            usernameTextField.widthAnchor
+                .constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor,
+                            multiplier: 0.7),
             
-            passwordTextField.topAnchor.constraint(
-                equalTo: usernameTextField.bottomAnchor, constant: 20
-            ),
-            passwordTextField.centerXAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.centerXAnchor
-            ),
-            passwordTextField.widthAnchor.constraint(
-                equalTo: usernameTextField.widthAnchor
-            ),
+            passwordTextField.topAnchor
+                .constraint(equalTo: usernameTextField.bottomAnchor,
+                            constant: 20),
+            passwordTextField.centerXAnchor
+                .constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            passwordTextField.widthAnchor
+                .constraint(equalTo: usernameTextField.widthAnchor),
             
-            loginButton.topAnchor.constraint(
-                equalTo: passwordTextField.bottomAnchor, constant: 50
-            ),
-            loginButton.centerXAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.centerXAnchor
-            )
+            loginButton.topAnchor
+                .constraint(equalTo: passwordTextField.bottomAnchor,
+                            constant: 50),
+            loginButton.centerXAnchor
+                .constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor)
         ]
         NSLayoutConstraint.activate(constraints)
+    }
+    
+    private func setupTargets() {
+        usernameTextField.addTarget(self,
+                                    action: #selector(textFieldsDidChanged),
+                                    for: .editingChanged)
+        
+        passwordTextField.addTarget(self,
+                                    action: #selector(textFieldsDidChanged),
+                                    for: .editingChanged)
+        
+        loginButton.addTarget(self,
+                              action: #selector(loginButtonPressed),
+                              for: .touchUpInside)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         view.endEditing(true)
+    }
+    
+    // MARK: - Private methods
+    private func authorizeUser(username: String, password: String) {
+        
+        networkService.userLogin(username: username, password: password) {
+            [weak self] (user) in
+            
+            guard let `self` = self else { return }
+            
+            guard let user = user else { return }
+            
+            // MARK: Navigation
+            DispatchQueue.main.async {
+                let searchRepositoryViewController =
+                    SearchRepositoryViewController(user: user)
+                self.navigationController?
+                    .pushViewController(searchRepositoryViewController,
+                                        animated: true)
+            }
+        }
     }
 }
 

@@ -10,17 +10,12 @@ import Foundation
 
 struct FoundRepositories: Decodable {
     
-    var count: Int
-    var repositories: [Repository]
+    let count: Int
+    let repositories: [Repository]
         
     private enum CodingKeys: String, CodingKey {
         case count = "total_count"
         case repositories = "items"
-    }
-    
-    init() {
-        count = 0
-        repositories = []
     }
     
     static func createFromJSON(_ jsonData: Data) -> FoundRepositories? {
