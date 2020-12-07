@@ -47,7 +47,8 @@ final class WebViewController: UIViewController {
     
     // MARK: - Private methods
     private func injectJavaScript() {
-        let source = "document.body.style.backgroundColor = \"#0AAAA0\";"
+        let color = "#0AAAA0"
+        let source = "document.body.style.backgroundColor = \"\(color)\";"
         let userScript = WKUserScript(source: source,
                                       injectionTime: .atDocumentEnd,
                                       forMainFrameOnly: true)

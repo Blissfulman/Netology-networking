@@ -38,7 +38,7 @@ final class KeychainStorage: KeychainManagerProtocol {
         let passwordData = password.data(using: .utf8)
         
         if readPassword(service: serviceName, account: account) != nil {
-            var attributesToUpdate = [String : AnyObject]()
+            var attributesToUpdate = [String: AnyObject]()
             attributesToUpdate[kSecValueData as String] =
                 passwordData as AnyObject
             
@@ -56,9 +56,9 @@ final class KeychainStorage: KeychainManagerProtocol {
     }
     
     private func keychainQuery(service: String,
-                               account: String? = nil) -> [String : AnyObject] {
+                               account: String? = nil) -> [String: AnyObject] {
         
-        var query = [String : AnyObject]()
+        var query = [String: AnyObject]()
         query[kSecClass as String] = kSecClassGenericPassword
         query[kSecAttrAccessible as String] = kSecAttrAccessibleWhenUnlocked
         query[kSecAttrService as String] = service as AnyObject
@@ -85,7 +85,7 @@ final class KeychainStorage: KeychainManagerProtocol {
             return nil
         }
         
-        guard let item = queryResult as? [String : AnyObject],
+        guard let item = queryResult as? [String: AnyObject],
               let passwordData = item[kSecValueData as String] as? Data,
               let password = String(data: passwordData, encoding: .utf8)
         else {
@@ -94,7 +94,7 @@ final class KeychainStorage: KeychainManagerProtocol {
         return password
     }
     
-    private func readAllItems(service: String) -> [String : String]? {
+    private func readAllItems(service: String) -> [String: String]? {
         var query = keychainQuery(service: service)
         query[kSecMatchLimit as String] = kSecMatchLimitAll
         query[kSecReturnData as String] = kCFBooleanTrue
@@ -107,10 +107,10 @@ final class KeychainStorage: KeychainManagerProtocol {
             return nil
         }
         
-        guard let items = queryResult as? [[String : AnyObject]] else {
+        guard let items = queryResult as? [[String: AnyObject]] else {
             return nil
         }
-        var passwordItems = [String : String]()
+        var passwordItems = [String: String]()
         
         for (index, item) in items.enumerated() {
             guard let passwordData = item[kSecValueData as String] as? Data,

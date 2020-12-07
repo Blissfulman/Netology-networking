@@ -184,16 +184,14 @@ final class LoginViewController: UIViewController {
         
         networkService.userLogin(username: username, password: password) {
             [weak self] (user) in
-            
-            guard let `self` = self else { return }
-            
+                        
             guard let user = user else { return }
             
             // MARK: Navigation
             DispatchQueue.main.async {
                 let searchRepositoryViewController =
                     SearchRepositoryViewController(user: user)
-                self.navigationController?
+                self?.navigationController?
                     .pushViewController(searchRepositoryViewController,
                                         animated: true)
             }

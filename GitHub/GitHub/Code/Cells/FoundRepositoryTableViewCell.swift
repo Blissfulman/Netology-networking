@@ -60,32 +60,42 @@ final class FoundRepositoryTableViewCell: UITableViewCell {
     
     // MARK: - Setup layout
     private func setupLayout() {
-        let constraints = [
-            repositoryNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 12),
-            repositoryNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
-            repositoryNameLabel.trailingAnchor.constraint(equalTo: loginLabel.leadingAnchor,
-                                                          constant: -30),
+        NSLayoutConstraint.activate([
+            repositoryNameLabel.topAnchor.constraint(equalTo: topAnchor,
+                                                     constant: 12),
+            repositoryNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                                         constant: 30),
+            repositoryNameLabel.trailingAnchor
+                .constraint(equalTo: loginLabel.leadingAnchor, constant: -30),
             
-            loginLabel.topAnchor.constraint(equalTo: repositoryNameLabel.topAnchor),
-            loginLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30),
-            loginLabel.bottomAnchor.constraint(equalTo: avatarImageView.topAnchor, constant: -10),
+            loginLabel.topAnchor
+                .constraint(equalTo: repositoryNameLabel.topAnchor),
+            loginLabel.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                                 constant: -30),
+            loginLabel.bottomAnchor
+                .constraint(equalTo: avatarImageView.topAnchor, constant: -10),
             loginLabel.widthAnchor.constraint(equalToConstant: 70),
 
-            repositoryDescriptionLabel.topAnchor.constraint(equalTo: repositoryNameLabel.bottomAnchor,
-                                                            constant: 10),
-            repositoryDescriptionLabel.leadingAnchor.constraint(equalTo: repositoryNameLabel.leadingAnchor),
-            repositoryDescriptionLabel.trailingAnchor.constraint(equalTo: repositoryNameLabel.trailingAnchor),
+            repositoryDescriptionLabel.topAnchor
+                .constraint(equalTo: repositoryNameLabel.bottomAnchor,
+                            constant: 10),
+            repositoryDescriptionLabel.leadingAnchor
+                .constraint(equalTo: repositoryNameLabel.leadingAnchor),
+            repositoryDescriptionLabel.trailingAnchor
+                .constraint(equalTo: repositoryNameLabel.trailingAnchor),
             
-            avatarImageView.leadingAnchor.constraint(equalTo: loginLabel.leadingAnchor),
-            avatarImageView.trailingAnchor.constraint(equalTo: loginLabel.trailingAnchor),
-            avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor),
-            avatarImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12)
-        ]
-        NSLayoutConstraint.activate(constraints)
+            avatarImageView.leadingAnchor
+                .constraint(equalTo: loginLabel.leadingAnchor),
+            avatarImageView.trailingAnchor
+                .constraint(equalTo: loginLabel.trailingAnchor),
+            avatarImageView.heightAnchor
+                .constraint(equalTo: avatarImageView.widthAnchor),
+            avatarImageView.bottomAnchor.constraint(equalTo: bottomAnchor,
+                                                    constant: -12)
+        ])
     }
     
     func configure(repository: Repository) {
-        
         setupUI()
         setupLayout()
         

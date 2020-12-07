@@ -78,8 +78,8 @@ final class NetworkService: NetworkServiceProtocol {
                 order: String,
                 completion: @escaping SearchResult) {
         
-        let defaultHeaders = ["Content-Type" : "application/json",
-                              "Accept" : "application/vnd.github.v3+json"]
+        let defaultHeaders = ["Content-Type": "application/json",
+                              "Accept": "application/vnd.github.v3+json"]
         
         guard let url = getSearchURL(repositoryName: repositoryName,
                                      language: language,
@@ -127,7 +127,8 @@ final class NetworkService: NetworkServiceProtocol {
         urlComponents.path = searchRepoPath
         
         urlComponents.queryItems = [
-            URLQueryItem(name: "q", value: "\(repositoryName)+language:\(language)"),
+            URLQueryItem(name: "q",
+                         value: "\(repositoryName)+language:\(language)"),
             URLQueryItem(name: "order", value: "\(order)"),
             URLQueryItem(name: "per_page", value: "100")
         ]
