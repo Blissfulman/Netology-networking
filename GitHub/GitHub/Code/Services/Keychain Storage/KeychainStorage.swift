@@ -39,12 +39,10 @@ final class KeychainStorage: KeychainManagerProtocol {
         
         if readPassword(service: serviceName, account: account) != nil {
             var attributesToUpdate = [String: AnyObject]()
-            attributesToUpdate[kSecValueData as String] =
-                passwordData as AnyObject
+            attributesToUpdate[kSecValueData as String] = passwordData as AnyObject
             
             let query = keychainQuery(service: serviceName, account: account)
-            let status = SecItemUpdate(query as CFDictionary,
-                                       attributesToUpdate as CFDictionary)
+            let status = SecItemUpdate(query as CFDictionary, attributesToUpdate as CFDictionary)
             return status == noErr
         }
         
@@ -55,8 +53,7 @@ final class KeychainStorage: KeychainManagerProtocol {
         return status == noErr
     }
     
-    private func keychainQuery(service: String,
-                               account: String? = nil) -> [String: AnyObject] {
+    private func keychainQuery(service: String, account: String? = nil) -> [String: AnyObject] {
         
         var query = [String: AnyObject]()
         query[kSecClass as String] = kSecClassGenericPassword
@@ -70,8 +67,7 @@ final class KeychainStorage: KeychainManagerProtocol {
         return query
     }
 
-    private func readPassword(service: String,
-                              account: String?) -> String? {
+    private func readPassword(service: String, account: String?) -> String? {
         
         var query = keychainQuery(service: service, account: account)
         query[kSecMatchLimit as String] = kSecMatchLimitOne

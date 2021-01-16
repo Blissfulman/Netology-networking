@@ -75,15 +75,14 @@ final class LoginViewController: UIViewController {
             
             guard let keychainData = KeychainStorage().getData() else { return }
             
-            self.authorizeUser(username: keychainData.username,
-                               password: keychainData.password)
+            self.authorizeUser(username: keychainData.username, password: keychainData.password)
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        navigationController?.navigationBar.isHidden = true
+        navigationController?.setNavigationBarHidden(true, animated: true)
         usernameTextField.text = nil
         passwordTextField.text = nil
     }
@@ -122,42 +121,30 @@ final class LoginViewController: UIViewController {
     
     // MARK: - Setup layout
     private func setupLayout() {
-        let constraints = [
-            logoImageView.topAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
-                            constant: 100),
-            logoImageView.centerXAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            logoImageView.widthAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor,
-                            multiplier: 0.8),
-            logoImageView.heightAnchor
-                .constraint(equalTo: logoImageView.widthAnchor,
-                            multiplier: 0.5),
+        NSLayoutConstraint.activate([
+            logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+                                               constant: 100),
+            logoImageView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            logoImageView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor,
+                                                 multiplier: 0.8),
+            logoImageView.heightAnchor.constraint(equalTo: logoImageView.widthAnchor,
+                                                  multiplier: 0.5),
             
-            usernameTextField.topAnchor
-                .constraint(equalTo: logoImageView.bottomAnchor, constant: 100),
-            usernameTextField.centerXAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            usernameTextField.widthAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor,
-                            multiplier: 0.7),
+            usernameTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor,
+                                                   constant: 100),
+            usernameTextField.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            usernameTextField.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor,
+                                                     multiplier: 0.7),
             
-            passwordTextField.topAnchor
-                .constraint(equalTo: usernameTextField.bottomAnchor,
-                            constant: 20),
-            passwordTextField.centerXAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            passwordTextField.widthAnchor
-                .constraint(equalTo: usernameTextField.widthAnchor),
+            passwordTextField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor,
+                                                   constant: 20),
+            passwordTextField.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            passwordTextField.widthAnchor.constraint(equalTo: usernameTextField.widthAnchor),
             
-            loginButton.topAnchor
-                .constraint(equalTo: passwordTextField.bottomAnchor,
-                            constant: 50),
-            loginButton.centerXAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor)
-        ]
-        NSLayoutConstraint.activate(constraints)
+            loginButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor,
+                                             constant: 50),
+            loginButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor)
+        ])
     }
     
     private func setupTargets() {
@@ -182,18 +169,15 @@ final class LoginViewController: UIViewController {
     // MARK: - Private methods
     private func authorizeUser(username: String, password: String) {
         
-        networkService.userLogin(username: username, password: password) {
-            [weak self] (user) in
+        networkService.userLogin(username: username, password: password) { [weak self] (user) in
                         
             guard let user = user else { return }
             
             // MARK: Navigation
             DispatchQueue.main.async {
-                let searchRepositoryViewController =
-                    SearchRepositoryViewController(user: user)
-                self?.navigationController?
-                    .pushViewController(searchRepositoryViewController,
-                                        animated: true)
+                let searchRepositoryViewController = SearchRepositoryViewController(user: user)
+                self?.navigationController?.pushViewController(searchRepositoryViewController,
+                                                               animated: true)
             }
         }
     }

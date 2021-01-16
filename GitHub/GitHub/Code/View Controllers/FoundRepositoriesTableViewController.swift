@@ -23,24 +23,16 @@ final class FoundRepositoriesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.register(
-            FoundRepositoryTableViewCell.self,
-            forCellReuseIdentifier: FoundRepositoryTableViewCell.identifier
-        )
+        tableView.register(FoundRepositoryTableViewCell.self,
+                           forCellReuseIdentifier: FoundRepositoryTableViewCell.identifier)
         setupUI()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        navigationController?.navigationBar.isHidden = false
     }
     
     // MARK: - Setup UI
     private func setupUI() {
         
         let headerView = UIView()
-        headerView.frame = .init(x: 0, y: 0,
-                                 width: view.frame.width, height: 50)
+        headerView.frame = .init(x: 0, y: 0, width: view.frame.width, height: 50)
         tableView.tableHeaderView = headerView
         
         let headerLabel = UILabel()
@@ -50,17 +42,12 @@ final class FoundRepositoriesTableViewController: UITableViewController {
         headerLabel.font = .boldSystemFont(ofSize: 20)
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        let constraints = [
-            headerLabel.leadingAnchor
-                .constraint(equalTo: headerView.leadingAnchor, constant: 16),
-            headerLabel.trailingAnchor
-                .constraint(equalTo: headerView.trailingAnchor, constant: 16),
-            headerLabel.topAnchor
-                .constraint(equalTo: headerView.topAnchor, constant: 0),
-            headerLabel.bottomAnchor
-                .constraint(equalTo: headerView.bottomAnchor, constant: 0)
-        ]
-        NSLayoutConstraint.activate(constraints)
+        NSLayoutConstraint.activate([
+            headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
+            headerLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: 16),
+            headerLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 0),
+            headerLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0)
+        ])
     }
 }
 

@@ -20,8 +20,7 @@ struct FoundRepositories: Decodable {
     
     static func createFromJSON(_ jsonData: Data) -> FoundRepositories? {
         
-        guard let result = try? JSONDecoder().decode(FoundRepositories.self,
-                                                     from: jsonData) else {
+        guard let result = try? JSONDecoder().decode(FoundRepositories.self, from: jsonData) else {
             return nil
         }
 

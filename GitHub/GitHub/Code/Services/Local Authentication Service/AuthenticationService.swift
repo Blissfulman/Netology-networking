@@ -27,13 +27,12 @@ final class AuthenticationService: AuthenticationServiceProtocol {
         let reason = "Fast and safe authentication in your app"
         var authError: NSError?
         
-        if authenticationContext.canEvaluatePolicy(
-            .deviceOwnerAuthenticationWithBiometrics, error: &authError
-        ) {
-            authenticationContext.evaluatePolicy(
-                .deviceOwnerAuthenticationWithBiometrics,
-                localizedReason: reason
-            ) { success, evaluateError in
+        if authenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics,
+                                                   error: &authError) {
+            authenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics,
+                                                 localizedReason: reason) {
+                success, evaluateError in
+                
                 if success {
                     // Пользователь успешно прошел аутентификацию
                     completion()

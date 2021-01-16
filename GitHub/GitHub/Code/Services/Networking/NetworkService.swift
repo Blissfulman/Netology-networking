@@ -12,9 +12,7 @@ typealias LoginResult = (User?) -> Void
 typealias SearchResult = (FoundRepositories) -> Void
 
 protocol NetworkServiceProtocol {
-    func userLogin(username: String,
-                   password: String,
-                   completion: @escaping LoginResult)
+    func userLogin(username: String, password: String, completion: @escaping LoginResult)
     
     func search(name repositoryName: String,
                 language: String,
@@ -31,19 +29,15 @@ final class NetworkService: NetworkServiceProtocol {
     }
     
     /// Авторизация пользователя.
-    func userLogin(username: String,
-                   password: String,
-                   completion: @escaping LoginResult) {
+    func userLogin(username: String, password: String, completion: @escaping LoginResult) {
                 
-        let base64LoginString = password.data(using: .utf8)?
-            .base64EncodedString() ?? ""
+        let base64LoginString = password.data(using: .utf8)?.base64EncodedString() ?? ""
         
         guard let url = URL(string: URLs.login) else { return }
         
         var request = URLRequest(url: url)
 
-        request.setValue("Basic \(base64LoginString)",
-                         forHTTPHeaderField: "Authorization")
+        request.setValue("Basic \(base64LoginString)", forHTTPHeaderField: "Authorization")
         
         session.dataTask(with: request) { (data, response, error) in
                         
@@ -60,8 +54,7 @@ final class NetworkService: NetworkServiceProtocol {
                     return
                 }
                 
-                KeychainStorage().savePassword(account: username,
-                                               password: password)
+                KeychainStorage().savePassword(account: username, password: password)
                     ? print("Password saved")
                     : print("Password saving error")
                 
@@ -112,9 +105,7 @@ final class NetworkService: NetworkServiceProtocol {
         }.resume()
     }
     
-    private func getSearchURL(repositoryName: String,
-                              language: String,
-                              order: String) -> URL? {
+    private func getSearchURL(repositoryName: String, language: String, order: String) -> URL? {
         
         let scheme = "https"
         let host = "api.github.com"
@@ -127,8 +118,7 @@ final class NetworkService: NetworkServiceProtocol {
         urlComponents.path = searchRepoPath
         
         urlComponents.queryItems = [
-            URLQueryItem(name: "q",
-                         value: "\(repositoryName)+language:\(language)"),
+            URLQueryItem(name: "q", value: "\(repositoryName)+language:\(language)"),
             URLQueryItem(name: "order", value: "\(order)"),
             URLQueryItem(name: "per_page", value: "100")
         ]
