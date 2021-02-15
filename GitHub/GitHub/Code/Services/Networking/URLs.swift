@@ -2,7 +2,7 @@
 //  URLs.swift
 //  GitHub
 //
-//  Created by User on 21.11.2020.
+//  Created by Evgeny Novgorodov on 21.11.2020.
 //  Copyright © 2020 Evgeny. All rights reserved.
 //
 

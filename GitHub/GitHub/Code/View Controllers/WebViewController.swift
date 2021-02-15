@@ -2,7 +2,7 @@
 //  WebViewController.swift
 //  GitHub
 //
-//  Created by User on 26.10.2020.
+//  Created by Evgeny Novgorodov on 26.10.2020.
 //  Copyright © 2020 Evgeny. All rights reserved.
 //
 
@@ -12,6 +12,7 @@ import WebKit
 final class WebViewController: UIViewController {
     
     // MARK: - Properties
+    
     private lazy var webView: WKWebView = {
         let webConfiguration = WKWebViewConfiguration()
         let webView = WKWebView(frame: .zero, configuration: webConfiguration)
@@ -25,12 +26,14 @@ final class WebViewController: UIViewController {
     private var url: String!
     
     // MARK: - Initializers
+    
     convenience init(url: String) {
         self.init()
         self.url = url
     }
     
     // MARK: - Lifecycle methods
+    
     override func loadView() {
         view = webView
     }
@@ -46,6 +49,7 @@ final class WebViewController: UIViewController {
     }
     
     // MARK: - Private methods
+    
     private func injectJavaScript() {
         let color = "#0AAAA0"
         let source = "document.body.style.backgroundColor = \"\(color)\";"
@@ -67,6 +71,7 @@ final class WebViewController: UIViewController {
 extension WebViewController: WKUIDelegate, WKNavigationDelegate {
     
     // MARK: - WKNavigationDelegate
+    
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         
         if let host = navigationAction.request.url?.host {

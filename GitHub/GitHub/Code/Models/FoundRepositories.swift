@@ -2,7 +2,7 @@
 //  Repository.swift
 //  GitHub
 //
-//  Created by User on 18.10.2020.
+//  Created by Evgeny Novgorodov on 18.10.2020.
 //  Copyright © 2020 Evgeny. All rights reserved.
 //
 

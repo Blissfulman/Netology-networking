@@ -2,7 +2,7 @@
 //  HelloViewController.swift
 //  GitHub
 //
-//  Created by User on 17.10.2020.
+//  Created by Evgeny Novgorodov on 17.10.2020.
 //  Copyright © 2020 Evgeny. All rights reserved.
 //
 
@@ -12,6 +12,7 @@ import Kingfisher
 final class SearchRepositoryViewController: UIViewController {
 
     // MARK: - Properties
+    
     private var user: User!
     
     private let helloLabel: UILabel = {
@@ -91,12 +92,14 @@ final class SearchRepositoryViewController: UIViewController {
     }()
         
     // MARK: - Initializers
+    
     convenience init(user: User) {
         self.init()
         self.user = user
     }
     
     // MARK: - Lifecycle methods
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -113,12 +116,14 @@ final class SearchRepositoryViewController: UIViewController {
     }
     
     // MARK: - Actions
+    
     @objc func startSearchButtonPressed() {
         view.endEditing(true)
         searchRepositories()
     }
     
     // MARK: - Setup UI
+    
     private func setupUI() {
         navigationController?.setNavigationBarHidden(false, animated: true)
         view.backgroundColor = .white
@@ -139,6 +144,7 @@ final class SearchRepositoryViewController: UIViewController {
     }
     
     // MARK: - Setup layout
+    
     private func setupLayout() {
         
         NSLayoutConstraint.activate([
@@ -185,6 +191,7 @@ final class SearchRepositoryViewController: UIViewController {
     }
     
     // MARK: - Private methods
+    
     private func searchRepositories() {
         
         let name = repositoryNameTextField.text ?? ""
@@ -193,7 +200,7 @@ final class SearchRepositoryViewController: UIViewController {
             ? "asc" : "desc"
                 
         NetworkService().search(name: name, language: language, order: order) {
-            [weak self] (foundRepositories) in
+            [weak self] foundRepositories in
             
             guard let self = self else { return }
             
@@ -210,7 +217,7 @@ final class SearchRepositoryViewController: UIViewController {
     }
 }
 
-// MARK: - TextFieldDelegate
+// MARK: - Text field delegate
 extension SearchRepositoryViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

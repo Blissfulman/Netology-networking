@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  GitHub
 //
-//  Created by User on 11.10.2020.
+//  Created by Evgeny Novgorodov on 11.10.2020.
 //  Copyright © 2020 Evgeny. All rights reserved.
 //
 
@@ -12,6 +12,7 @@ import Kingfisher
 final class LoginViewController: UIViewController {
 
     // MARK: - Properties
+    
     /// Изображение логотипа
     private lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
@@ -62,6 +63,7 @@ final class LoginViewController: UIViewController {
     private let networkService: NetworkServiceProtocol = NetworkService()
         
     // MARK: - Lifecycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
                 
@@ -71,7 +73,7 @@ final class LoginViewController: UIViewController {
         
         AuthenticationService().authenticateUser() { [weak self] in
             
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             
             guard let keychainData = KeychainStorage().getData() else { return }
             
@@ -88,6 +90,7 @@ final class LoginViewController: UIViewController {
     }
     
     // MARK: - Actions
+    
     @objc func textFieldsDidChanged() {
         guard let username = usernameTextField.text else { return }
         guard let password = passwordTextField.text else { return }
@@ -107,6 +110,7 @@ final class LoginViewController: UIViewController {
     }
     
     // MARK: - Setup UI
+    
     private func setupUI() {
         view.backgroundColor = .white
         view.addSubview(logoImageView)
@@ -120,6 +124,7 @@ final class LoginViewController: UIViewController {
     }
     
     // MARK: - Setup layout
+    
     private func setupLayout() {
         NSLayoutConstraint.activate([
             logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
@@ -148,17 +153,9 @@ final class LoginViewController: UIViewController {
     }
     
     private func setupTargets() {
-        usernameTextField.addTarget(self,
-                                    action: #selector(textFieldsDidChanged),
-                                    for: .editingChanged)
-        
-        passwordTextField.addTarget(self,
-                                    action: #selector(textFieldsDidChanged),
-                                    for: .editingChanged)
-        
-        loginButton.addTarget(self,
-                              action: #selector(loginButtonPressed),
-                              for: .touchUpInside)
+        usernameTextField.addTarget(self, action: #selector(textFieldsDidChanged), for: .editingChanged)
+        passwordTextField.addTarget(self, action: #selector(textFieldsDidChanged), for: .editingChanged)
+        loginButton.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -167,9 +164,10 @@ final class LoginViewController: UIViewController {
     }
     
     // MARK: - Private methods
+    
     private func authorizeUser(username: String, password: String) {
         
-        networkService.userLogin(username: username, password: password) { [weak self] (user) in
+        networkService.userLogin(username: username, password: password) { [weak self] user in
                         
             guard let user = user else { return }
             
@@ -183,7 +181,8 @@ final class LoginViewController: UIViewController {
     }
 }
 
-// MARK: - TextFieldDelegate
+// MARK: - Text field delegate
+
 extension LoginViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  GitHub
 //
-//  Created by User on 11.10.2020.
+//  Created by Evgeny Novgorodov on 11.10.2020.
 //  Copyright © 2020 Evgeny. All rights reserved.
 //
 

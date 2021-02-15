@@ -2,7 +2,7 @@
 //  FoundRepositoriesViewController.swift
 //  GitHub
 //
-//  Created by User on 18.10.2020.
+//  Created by Evgeny Novgorodov on 18.10.2020.
 //  Copyright © 2020 Evgeny. All rights reserved.
 //
 
@@ -11,15 +11,18 @@ import UIKit
 final class FoundRepositoriesTableViewController: UITableViewController {
     
     // MARK: - Properties
+    
     private var foundRepositories: FoundRepositories!
     
     // MARK: - Initializers
+    
     convenience init(_ foundRepositories: FoundRepositories) {
         self.init()
         self.foundRepositories = foundRepositories
     }
     
     // MARK: - Lifecycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,6 +32,7 @@ final class FoundRepositoriesTableViewController: UITableViewController {
     }
     
     // MARK: - Setup UI
+    
     private func setupUI() {
         
         let headerView = UIView()
@@ -53,7 +57,8 @@ final class FoundRepositoriesTableViewController: UITableViewController {
 
 extension FoundRepositoriesTableViewController {
     
-    // MARK: - TableViewDataSourse
+    // MARK: - Table view data sourse
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         foundRepositories.count
     }
@@ -67,10 +72,12 @@ extension FoundRepositoriesTableViewController {
         return cell
     }
     
-    // MARK: - TableViewDelegate
+    // MARK: - Table view delegate
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        // MARK: Navigation
+        // MARK: - Navigation
+        
         let backItem = UIBarButtonItem()
         backItem.title = "Found repositories"
         navigationItem.backBarButtonItem = backItem

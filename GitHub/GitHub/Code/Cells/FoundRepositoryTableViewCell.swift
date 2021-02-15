@@ -2,7 +2,7 @@
 //  FoundRepositoryTableViewCell.swift
 //  GitHub
 //
-//  Created by User on 21.10.2020.
+//  Created by Evgeny Novgorodov on 21.10.2020.
 //  Copyright © 2020 Evgeny. All rights reserved.
 //
 
@@ -12,6 +12,7 @@ import Kingfisher
 final class FoundRepositoryTableViewCell: UITableViewCell {
     
     // MARK: - Properties
+    
     static let identifier = "repositoryCell"
     
     /// Название репозитория
@@ -51,6 +52,7 @@ final class FoundRepositoryTableViewCell: UITableViewCell {
     }()
     
     // MARK: - Setup UI
+    
     private func setupUI() {
         addSubview(repositoryNameLabel)
         addSubview(repositoryDescriptionLabel)
@@ -59,6 +61,7 @@ final class FoundRepositoryTableViewCell: UITableViewCell {
     }
     
     // MARK: - Setup layout
+    
     private func setupLayout() {
         NSLayoutConstraint.activate([
             repositoryNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 12),

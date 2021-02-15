@@ -2,7 +2,7 @@
 //  RequestManager.swift
 //  GitHub
 //
-//  Created by User on 14.11.2020.
+//  Created by Evgeny Novgorodov on 14.11.2020.
 //  Copyright © 2020 Evgeny. All rights reserved.
 //
 
@@ -81,8 +81,7 @@ final class NetworkService: NetworkServiceProtocol {
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = defaultHeaders
         
-        session.dataTask(with: request) {
-            (data, response, error) in
+        session.dataTask(with: request) { data, response, error in
             
             if let error = error {
                 print(error.localizedDescription)
