@@ -67,8 +67,7 @@ extension FoundRepositoriesTableViewController {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: FoundRepositoryTableViewCell.identifier
         ) as! FoundRepositoryTableViewCell
-        cell.configure(repository: foundRepositories
-                        .repositories[indexPath.row])
+        cell.configure(repository: foundRepositories.repositories[indexPath.row])
         return cell
     }
     

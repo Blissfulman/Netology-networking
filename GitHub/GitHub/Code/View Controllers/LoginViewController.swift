@@ -89,26 +89,6 @@ final class LoginViewController: UIViewController {
         passwordTextField.text = nil
     }
     
-    // MARK: - Actions
-    
-    @objc func textFieldsDidChanged() {
-        guard let username = usernameTextField.text else { return }
-        guard let password = passwordTextField.text else { return }
-        
-        loginButton.isEnabled = !username.isEmpty && !password.isEmpty
-    }
-    
-    @objc private func loginButtonPressed() {
-        
-        view.endEditing(true)
-        
-        guard let username = usernameTextField.text,
-              let password = passwordTextField.text
-        else { return }
-        
-        authorizeUser(username: username, password: password)
-    }
-    
     // MARK: - Setup UI
     
     private func setupUI() {
@@ -152,15 +132,32 @@ final class LoginViewController: UIViewController {
         ])
     }
     
+    // MARK: - Setup targets
+    
     private func setupTargets() {
         usernameTextField.addTarget(self, action: #selector(textFieldsDidChanged), for: .editingChanged)
         passwordTextField.addTarget(self, action: #selector(textFieldsDidChanged), for: .editingChanged)
         loginButton.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
+    // MARK: - Actions
+    
+    @objc private func textFieldsDidChanged() {
+        guard let username = usernameTextField.text else { return }
+        guard let password = passwordTextField.text else { return }
+        
+        loginButton.isEnabled = !username.isEmpty && !password.isEmpty
+    }
+    
+    @objc private func loginButtonPressed() {
+        
         view.endEditing(true)
+        
+        guard let username = usernameTextField.text,
+              let password = passwordTextField.text
+        else { return }
+        
+        authorizeUser(username: username, password: password)
     }
     
     // MARK: - Private methods
@@ -184,6 +181,11 @@ final class LoginViewController: UIViewController {
 // MARK: - Text field delegate
 
 extension LoginViewController: UITextFieldDelegate {
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         

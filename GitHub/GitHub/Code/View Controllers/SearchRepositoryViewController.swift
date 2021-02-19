@@ -115,13 +115,6 @@ final class SearchRepositoryViewController: UIViewController {
         avatarImageView.layer.cornerRadius = avatarImageView.bounds.width / 2
     }
     
-    // MARK: - Actions
-    
-    @objc func startSearchButtonPressed() {
-        view.endEditing(true)
-        searchRepositories()
-    }
-    
     // MARK: - Setup UI
     
     private func setupUI() {
@@ -183,11 +176,11 @@ final class SearchRepositoryViewController: UIViewController {
         ])
     }
     
-    // Скрытие клавиатуры по тапу в свободное место вью
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        
+    // MARK: - Actions
+    
+    @objc private func startSearchButtonPressed() {
         view.endEditing(true)
+        searchRepositories()
     }
     
     // MARK: - Private methods
@@ -196,8 +189,7 @@ final class SearchRepositoryViewController: UIViewController {
         
         let name = repositoryNameTextField.text ?? ""
         let language = languageTextField.text ?? ""
-        let order = sortingSegmentedControl.selectedSegmentIndex == 0
-            ? "asc" : "desc"
+        let order = sortingSegmentedControl.selectedSegmentIndex == 0 ? "asc" : "desc"
                 
         NetworkService().search(name: name, language: language, order: order) {
             [weak self] foundRepositories in
@@ -219,6 +211,13 @@ final class SearchRepositoryViewController: UIViewController {
 
 // MARK: - Text field delegate
 extension SearchRepositoryViewController: UITextFieldDelegate {
+    
+    // Скрытие клавиатуры по тапу в свободное место вью
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        view.endEditing(true)
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
