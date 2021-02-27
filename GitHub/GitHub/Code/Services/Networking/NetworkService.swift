@@ -11,9 +11,13 @@ import Foundation
 typealias LoginResult = (User?) -> Void
 typealias SearchResult = (FoundRepositories) -> Void
 
+// MARK: - Protocols
+
 protocol NetworkServiceProtocol {
+    /// Авторизация пользователя.
     func userLogin(username: String, password: String, completion: @escaping LoginResult)
     
+    /// Поиск репозиториев с переданными параметрами.
     func search(name repositoryName: String,
                 language: String,
                 order: String,
@@ -22,13 +26,18 @@ protocol NetworkServiceProtocol {
 
 final class NetworkService: NetworkServiceProtocol {
     
+    // MARK: - Properties
+    
     private let session: URLSession
+    
+    // MARK: - Initializers
     
     init(session: URLSession = .shared) {
         self.session = session
     }
     
-    /// Авторизация пользователя.
+    // MARK: - Public methods
+    
     func userLogin(username: String, password: String, completion: @escaping LoginResult) {
                 
         let base64LoginString = password.data(using: .utf8)?.base64EncodedString() ?? ""
@@ -65,7 +74,6 @@ final class NetworkService: NetworkServiceProtocol {
         }.resume()
     }
     
-    /// Поиск репозиториев с переданными параметрами.
     func search(name repositoryName: String,
                 language: String,
                 order: String,
@@ -97,15 +105,15 @@ final class NetworkService: NetworkServiceProtocol {
                 return
             }
             
-            guard let foundRepositories =
-                FoundRepositories.createFromJSON(jsonData) else { return }
+            guard let foundRepositories = FoundRepositories.createFromJSON(jsonData) else { return }
             
             completion(foundRepositories)
         }.resume()
     }
     
+    // MARK: - Private methods
+    
     private func getSearchURL(repositoryName: String, language: String, order: String) -> URL? {
-        
         let scheme = "https"
         let host = "api.github.com"
         let searchRepoPath = "/search/repositories"

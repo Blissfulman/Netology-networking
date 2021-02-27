@@ -8,16 +8,22 @@
 
 import Foundation
 
+// MARK: - Protocols
+
 protocol KeychainManagerProtocol {
     func getData() -> (username: String, password: String)?
     func savePassword(account: String, password: String) -> Bool
 }
 
 final class KeychainStorage: KeychainManagerProtocol {
-        
+    
+    // MARK: - Properties
+    
     private let serviceName = "GitHubApp"
-        
-    /// Проверка наличия сохранённых паролей в keychain
+    
+    // MARK: - Public methods
+    
+    /// Получение данных с сохранённым паролем.
     func getData() -> (username: String, password: String)? {
         
         guard let passwordItems = readAllItems(service: serviceName),
@@ -32,7 +38,6 @@ final class KeychainStorage: KeychainManagerProtocol {
         return (username: username, password: password)
     }
     
-    /// Сохранение пароля
     func savePassword(account: String, password: String) -> Bool {
         
         let passwordData = password.data(using: .utf8)
@@ -52,6 +57,8 @@ final class KeychainStorage: KeychainManagerProtocol {
         
         return status == noErr
     }
+    
+    // MARK: - Private methods
     
     private func keychainQuery(service: String, account: String? = nil) -> [String: AnyObject] {
         

@@ -101,7 +101,6 @@ final class SearchRepositoryViewController: UIViewController {
     // MARK: - Lifecycle methods
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         
         setupUI()
@@ -139,7 +138,6 @@ final class SearchRepositoryViewController: UIViewController {
     // MARK: - Setup layout
     
     private func setupLayout() {
-        
         NSLayoutConstraint.activate([
             helloLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
                                             constant: 40),
@@ -186,7 +184,6 @@ final class SearchRepositoryViewController: UIViewController {
     // MARK: - Private methods
     
     private func searchRepositories() {
-        
         let name = repositoryNameTextField.text ?? ""
         let language = languageTextField.text ?? ""
         let order = sortingSegmentedControl.selectedSegmentIndex == 0 ? "asc" : "desc"

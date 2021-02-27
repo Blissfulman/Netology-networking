@@ -11,11 +11,12 @@ import Kingfisher
 
 final class FoundRepositoryTableViewCell: UITableViewCell {
     
-    // MARK: - Properties
+    // MARK: - Class properties
     
     static let identifier = "repositoryCell"
     
-    /// Название репозитория
+    // MARK: - Properties
+    
     private let repositoryNameLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 16)
@@ -23,7 +24,6 @@ final class FoundRepositoryTableViewCell: UITableViewCell {
         return label
     }()
     
-    /// Описание репозитория
     private let repositoryDescriptionLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
@@ -32,7 +32,6 @@ final class FoundRepositoryTableViewCell: UITableViewCell {
         return label
     }()
     
-    /// Логин хозяина репозитория
     private let loginLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 14)
@@ -43,13 +42,27 @@ final class FoundRepositoryTableViewCell: UITableViewCell {
         return label
     }()
     
-    /// Изображение аватара хозяина репозитория
-    lazy var avatarImageView: UIImageView = {
+    private lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
+    
+    // MARK: - Public methods
+    
+    func configure(repository: Repository) {
+        setupUI()
+        setupLayout()
+        
+        let url = URL(string: repository.owner.avatarUrl)
+                
+        repositoryNameLabel.text = repository.name
+        repositoryDescriptionLabel.text = repository.description
+        loginLabel.text = repository.owner.login
+        avatarImageView.kf.indicatorType = .activity
+        avatarImageView.kf.setImage(with: url)
+    }
     
     // MARK: - Setup UI
     
@@ -84,18 +97,5 @@ final class FoundRepositoryTableViewCell: UITableViewCell {
             avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor),
             avatarImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12)
         ])
-    }
-    
-    func configure(repository: Repository) {
-        setupUI()
-        setupLayout()
-        
-        let url = URL(string: repository.owner.avatarUrl)
-                
-        repositoryNameLabel.text = repository.name
-        repositoryDescriptionLabel.text = repository.description
-        loginLabel.text = repository.owner.login
-        avatarImageView.kf.indicatorType = .activity
-        avatarImageView.kf.setImage(with: url)
     }
 }

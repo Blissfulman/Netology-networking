@@ -8,11 +8,15 @@
 
 import LocalAuthentication
 
+// MARK: - Protocols
+
 protocol AuthenticationServiceProtocol {
     func authenticateUser(completion: @escaping () -> Void)
 }
 
 final class AuthenticationService: AuthenticationServiceProtocol {
+    
+    // MARK: - Public methods
     
     func authenticateUser(completion: @escaping () -> Void) {
         
@@ -50,6 +54,8 @@ final class AuthenticationService: AuthenticationServiceProtocol {
             }
         }
     }
+    
+    // MARK: - Private methods
     
     private func setupAuthenticationContext(context: LAContext) {
         context.localizedReason = "Use for fast and safe authentication in your app"

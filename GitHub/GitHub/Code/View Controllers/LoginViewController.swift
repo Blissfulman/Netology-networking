@@ -82,7 +82,7 @@ final class LoginViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         
         navigationController?.setNavigationBarHidden(true, animated: true)
         usernameTextField.text = nil
@@ -150,7 +150,6 @@ final class LoginViewController: UIViewController {
     }
     
     @objc private func loginButtonPressed() {
-        
         view.endEditing(true)
         
         guard let username = usernameTextField.text,
@@ -163,7 +162,6 @@ final class LoginViewController: UIViewController {
     // MARK: - Private methods
     
     private func authorizeUser(username: String, password: String) {
-        
         networkService.userLogin(username: username, password: password) { [weak self] user in
                         
             guard let user = user else { return }

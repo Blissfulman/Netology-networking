@@ -34,7 +34,6 @@ final class FoundRepositoriesTableViewController: UITableViewController {
     // MARK: - Setup UI
     
     private func setupUI() {
-        
         let headerView = UIView()
         headerView.frame = .init(x: 0, y: 0, width: view.frame.width, height: 50)
         tableView.tableHeaderView = headerView
