@@ -72,12 +72,9 @@ final class LoginViewController: UIViewController {
         setupTargets()
         
         AuthenticationService().authenticateUser() { [weak self] in
-            
-            guard let self = self else { return }
-            
             guard let keychainData = KeychainStorage().getData() else { return }
             
-            self.authorizeUser(username: keychainData.username, password: keychainData.password)
+            self?.authorizeUser(username: keychainData.username, password: keychainData.password)
         }
     }
     
@@ -186,7 +183,6 @@ extension LoginViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
         if textField == usernameTextField {
             passwordTextField.becomeFirstResponder()
         } else {

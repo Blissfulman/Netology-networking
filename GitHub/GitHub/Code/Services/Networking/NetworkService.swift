@@ -39,7 +39,6 @@ final class NetworkService: NetworkServiceProtocol {
     // MARK: - Public methods
     
     func userLogin(username: String, password: String, completion: @escaping LoginResult) {
-                
         let base64LoginString = password.data(using: .utf8)?.base64EncodedString() ?? ""
         
         guard let url = URL(string: URLs.login) else { return }

@@ -191,16 +191,14 @@ final class SearchRepositoryViewController: UIViewController {
         NetworkService().search(name: name, language: language, order: order) {
             [weak self] foundRepositories in
             
-            guard let self = self else { return }
-            
             // MARK: Navigation
             DispatchQueue.main.async {
                 let backItem = UIBarButtonItem()
                 backItem.title = "Search repository"
-                self.navigationItem.backBarButtonItem = backItem
+                self?.navigationItem.backBarButtonItem = backItem
                 
                 let foundRepositoriesTVC = FoundRepositoriesTableViewController(foundRepositories)
-                self.navigationController?.pushViewController(foundRepositoriesTVC, animated: true)
+                self?.navigationController?.pushViewController(foundRepositoriesTVC, animated: true)
             }
         }
     }
@@ -217,7 +215,6 @@ extension SearchRepositoryViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
         if textField == repositoryNameTextField {
             languageTextField.becomeFirstResponder()
         } else {

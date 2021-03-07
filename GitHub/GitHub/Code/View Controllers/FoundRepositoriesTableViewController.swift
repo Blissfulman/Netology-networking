@@ -80,8 +80,7 @@ extension FoundRepositoriesTableViewController {
         backItem.title = "Found repositories"
         navigationItem.backBarButtonItem = backItem
 
-        let webVC = WebViewController(url: foundRepositories
-                                        .repositories[indexPath.row].url)
+        let webVC = WebViewController(url: foundRepositories.repositories[indexPath.row].url)
         self.navigationController?.pushViewController(webVC, animated: true)
     }
 }

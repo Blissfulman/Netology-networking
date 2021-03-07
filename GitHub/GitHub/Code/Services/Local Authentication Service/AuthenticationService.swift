@@ -19,7 +19,6 @@ final class AuthenticationService: AuthenticationServiceProtocol {
     // MARK: - Public methods
     
     func authenticateUser(completion: @escaping () -> Void) {
-        
         guard #available(iOS 8.0, *, *) else {
             print("Версия iOS не поддерживает TouchID")
             return
